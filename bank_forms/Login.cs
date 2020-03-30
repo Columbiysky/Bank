@@ -38,10 +38,11 @@ namespace bank_forms
             while (cursor.MoveNext())       
             {
                 var users = cursor.Current;     //ну переведи ты ну что ты как ...
-                foreach (var user in users)
-                {
-                    textBox1.Text += user.ToString();       //ясно...
-                }
+                if (users.Count() == 0)
+                    MessageBox.Show("Логин/Пароль не верны!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
         }
     }

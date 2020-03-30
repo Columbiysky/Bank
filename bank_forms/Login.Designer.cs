@@ -33,7 +33,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtBx_login = new System.Windows.Forms.TextBox();
             this.txtBx_password = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Btn_login
@@ -81,20 +80,11 @@
             this.txtBx_password.Size = new System.Drawing.Size(100, 20);
             this.txtBx_password.TabIndex = 4;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(252, 19);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(284, 398);
-            this.textBox1.TabIndex = 5;
-            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 508);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(243, 263);
             this.Controls.Add(this.txtBx_password);
             this.Controls.Add(this.txtBx_login);
             this.Controls.Add(this.label2);
@@ -114,7 +104,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtBx_login;
         private System.Windows.Forms.TextBox txtBx_password;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
