@@ -61,5 +61,11 @@ namespace bank_forms
 
             }
         }
+
+        private void linkLbl_Register_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Registration reg_form = new Registration( client);
+            reg_form.ShowDialog();
+        }
     }
 }
