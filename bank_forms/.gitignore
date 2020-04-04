@@ -1,0 +1,11 @@
+# VS settings
+.vs/
+
+# bin folder
+bin/
+
+!bin/Debug/bank_forms.exe.config
+
+# obj folder
+obj/
+
