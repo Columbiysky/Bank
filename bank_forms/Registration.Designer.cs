@@ -151,6 +151,10 @@
             this.txtBx_Phone.Name = "txtBx_Phone";
             this.txtBx_Phone.Size = new System.Drawing.Size(241, 22);
             this.txtBx_Phone.TabIndex = 11;
+            this.txtBx_Phone.TextChanged += new System.EventHandler(this.txtBx_Phone_TextChanged);
+            this.txtBx_Phone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBx_Phone_KeyDown);
+            this.txtBx_Phone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBx_Phone_KeyPress);
+            this.txtBx_Phone.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBx_Phone_KeyUp);
             // 
             // label7
             // 
@@ -171,6 +175,7 @@
             this.Btn_Register.TabIndex = 13;
             this.Btn_Register.Text = "Register";
             this.Btn_Register.UseVisualStyleBackColor = true;
+            this.Btn_Register.Click += new System.EventHandler(this.Btn_Register_Click);
             // 
             // Registration
             // 
