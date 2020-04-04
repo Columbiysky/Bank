@@ -35,10 +35,9 @@ namespace bank_forms
                     return; //мб это можно сделать более адекватно, но я уже подтупливаю конкретно
                 else
                 {
-                    var filter = new BsonDocument("$and", new BsonArray //Проверяем что такого же молодого нет
+                    var filter = new BsonDocument("$or", new BsonArray //Проверяем что такого же молодого нет
                     {
-                        new BsonDocument("Login", insertDoc.GetValue("Login")),            
-                        new BsonDocument("Password", insertDoc.GetValue("Password")),       
+                        new BsonDocument("Login", insertDoc.GetValue("Login")),     
                         new BsonDocument("Phone", insertDoc.GetValue("Phone"))
                     });
 
