@@ -10,8 +10,8 @@ namespace bank_forms.src.BankCards
 
         int Percent { get; set; }                   // процент по карте (если кредитная)
 
-        // int MinimalLimit { get; set; }              
-
         int MaximumLimit { get; set; }              // максимальный лимит карты
+
+        string CardType { get; set; }               // тип карточки (дебетовая/кредитная)
     }
 }
