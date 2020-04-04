@@ -15,33 +15,49 @@ namespace bank_forms
     public partial class Login : Form
     {
         private MongoClient client;
+        private IClient app_client = new Client();
+
         public Login()
         {
+            StartPosition = FormStartPosition.CenterScreen;
             client = new MongoClient("mongodb+srv://Colba:Colba@colba-anrx1.mongodb.net/test?retryWrites=true&w=majority");
             //Пиздец, вот и началось, коннекшин стринг, вся хуйня, сам понял
-            //Надо будет добавить твой IP в белый лист в базе монго, пока хз как это делать, я ток свой умею))
             InitializeComponent();
         }
 
         private void Btn_login_Click(object sender, EventArgs e)
         {
             var db = client.GetDatabase("bank"); //ну с ангийского переведи
-            var collection = db.GetCollection<BsonDocument>("users"); //и тут, что такое BsonDocument - до конца не понял, но мне реально поебать
+            var collection = db.GetCollection<BsonDocument>("clients"); //и тут, что такое BsonDocument - до конца не понял, но мне реально поебать
 
             var filter = new BsonDocument("$and", new BsonArray //чтобы выборку сделать ,ес что щас там только 1 юзер   
             {
-                new BsonDocument("login", txtBx_login.Text),            //cola
-                new BsonDocument("password", txtBx_password.Text)       //cola          защитился охуеть...
+                new BsonDocument("Login", txtBx_login.Text),            //cola
+                new BsonDocument("Password", txtBx_password.Text)       //cola          защитился охуеть...
             }); 
 
             var cursor = collection.FindSync(filter);       //все курсор называют, а хули мне, я не индивидуалочка тебе чтобы по своему называть
             while (cursor.MoveNext())       
             {
-                var users = cursor.Current;     //ну переведи ты ну что ты как ...
-                if (users.Count() == 0)
+                var clients = cursor.Current;     //ну переведи ты ну что ты как ...
+                if (clients.Count() == 0)
                     MessageBox.Show("Логин/Пароль не верны!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
+                {
+                    foreach (var client in clients)
+                    {
+                        app_client.Login = txtBx_login.Text;
+                        app_client.Password = txtBx_password.Text;
+                        app_client.client_id64 = client.GetValue("_id").AsInt64;
+                        app_client.Surname = client.GetValue("Surname").ToString();
+                        app_client.Name = client.GetValue("Name").ToString();
+                        app_client.Second_name = client.GetValue("Second_name").ToString();
+                        app_client.INN = client.GetValue("INN").AsInt64;
+                        app_client.Phone = client.GetValue("Phone").AsInt64;
+                    }
+
                     MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
             }
         }
