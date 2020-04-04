@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using System;
 
 namespace bank_forms.src.BankCards
 {
@@ -6,33 +7,33 @@ namespace bank_forms.src.BankCards
     {
         public ObjectId CardID 
         { 
-            get => throw new System.NotImplementedException(); 
-            set => throw new System.NotImplementedException(); 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
         }
         public string Validity 
         { 
-            get => throw new System.NotImplementedException(); 
-            set => throw new System.NotImplementedException(); 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
         }
         public int Percent 
         { 
-            get => throw new System.NotImplementedException(); 
-            set => throw new System.NotImplementedException(); 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
         }
         public int MaximumLimit 
         { 
-            get => throw new System.NotImplementedException(); 
-            set => throw new System.NotImplementedException(); 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
         }
         public string CardType 
         { 
-            get => throw new System.NotImplementedException(); 
-            set => throw new System.NotImplementedException(); 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
         }
 
         public ICard CreateCard()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
