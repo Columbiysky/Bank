@@ -33,8 +33,9 @@ namespace bank_forms
 
         private void txtBx_Address_TextChanged(object sender, EventArgs e)
         {
+            string token = "iAte5kDtsGdN89DR67eKar74TByKS6Ds";
             //MessageBox.Show(txtBx_Address.Text);
-            WebRequest get = WebRequest.Create($@"https://kladr-api.ru/api.php?query={txtBx_Address.Text}&withParent=1");
+            WebRequest get = WebRequest.Create("https://kladr-api.ru/api.php?query=" + txtBx_Address.Text +"&withParent=1");
             get.Credentials = CredentialCache.DefaultCredentials;
             WebResponse response = get.GetResponse();
             textBox1.Text += ((HttpWebResponse) response).StatusDescription + "\r\n";
