@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using System.Windows.Forms;
@@ -56,7 +57,9 @@ namespace bank_forms
                         app_client.Phone = client.GetValue("Phone").AsInt64;
                     }
 
-                    MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close(); //Закрываем текущую
+                    new Thread(() => Application.Run(new Main(client))).Start();  //Делаем главной вторую
                 }
 
             }
