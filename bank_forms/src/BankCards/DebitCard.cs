@@ -1,39 +1,34 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 using System;
 
 namespace bank_forms.src.BankCards
 {
     class DebitCard : ICard
     {
-        public ObjectId CardID 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public string Validity 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public int Percent 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public int MaximumLimit 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public string CardType 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
+        [BsonId]
+        public ObjectId CardID { get; set; }
 
-        public ICard CreateCard()
+        [BsonElement("Validity")]
+        public string Validity { get; set; }
+
+        [BsonElement("Percent")]
+        public int Percent { get; set; }
+
+        [BsonElement("MaximumLimit")]
+        public int MaximumLimit { get; set; }
+
+        [BsonElement("CardType")]
+        public string CardType { get; set; }
+
+        public DebitCard(ObjectId cardId, string validity, int percent = 0, int maxLimit = 0, string cardType = "Дебетовая карта")
         {
-            throw new NotImplementedException();
+            CardID = cardId;
+            Validity = validity;
+            Percent = percent;
+            MaximumLimit = maxLimit;
+            CardType = cardType;
         }
     }
 }

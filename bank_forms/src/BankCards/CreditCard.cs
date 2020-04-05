@@ -30,10 +30,5 @@ namespace bank_forms.src.BankCards
             get => throw new NotImplementedException(); 
             set => throw new NotImplementedException(); 
         }
-
-        public ICard CreateCard()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
