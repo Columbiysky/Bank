@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace bank_forms.src.BankCards
 {
-    interface ICard
+    public interface ICard
     {
         ObjectId CardID { get; set; }                                                   // поле для хранения первичного ключа
 

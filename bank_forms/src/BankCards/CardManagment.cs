@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace bank_forms.src.BankCards
 {
-    class CardManagment
+    public class CardManagment
     {
         public ICard CreateDebitCard(MongoClient client, string validity, int percent = 0, int maxLimit = 0, string cardType = "Дебетовая карта")
         {
@@ -14,7 +14,7 @@ namespace bank_forms.src.BankCards
 
             BsonDocument debitCard = new BsonDocument
             {
-                { "_id",  objId },
+                { "_id",  "123" }, //для теста
                 { "Validity", validity },
                 { "Percent", percent },
                 { "MaximumLimit",  maxLimit },

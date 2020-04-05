@@ -5,7 +5,7 @@ using System;
 
 namespace bank_forms.src.BankCards
 {
-    class DebitCard : ICard
+    public class DebitCard : ICard
     {
         [BsonId]
         public ObjectId CardID { get; set; }
