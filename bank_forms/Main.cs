@@ -65,9 +65,12 @@ namespace bank_forms
             var query = txtBx_Address.Text;
             var response = api.SuggestAddress(query);
             var address_data = response.suggestions[0].data;
-            textBox1.Text += address_data.city + " " + address_data.city_type + " " + address_data.area + " " + address_data.area_type +
+            var address_data_2 = response.suggestions[1].data;
+            textBox1.Text += "Address_data 1"+address_data.city + " " + address_data.city_type + " " + address_data.area + " " + address_data.area_type +
                             " " + address_data.city_district + " "+ address_data.city_district_type + " "+
-                            address_data.street+ "\r\n\n";
+                            address_data.street+ " "+address_data.house+" "+address_data.house_type+" "+address_data.postal_code+ 
+                            " "+ address_data.city_area+ " " + "\r\n\n" + "Address_data 2" + address_data_2.region + " "+
+                            address_data_2.region_type + "\r\n" ;
 
             //foreach (var item in response.Result.Suggestions)
             //{
