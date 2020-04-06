@@ -39,8 +39,9 @@
     <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
     </Reference>
-    <Reference Include="DaData, Version=1.1.49.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\DaData.ApiClient.1.1.49\lib\netstandard2.0\DaData.dll</HintPath>
+    <Reference Include="Dadata, Version=1.1.49.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Dadata.dll</HintPath>
     </Reference>
     <Reference Include="DnsClient, Version=1.3.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>packages\DnsClient.1.3.0\lib\net471\DnsClient.dll</HintPath>
