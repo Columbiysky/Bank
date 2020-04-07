@@ -7,7 +7,7 @@ namespace bank_forms.src.DBConnection
     {
         private static string connectionString = "mongodb+srv://Colba:Colba@colba-anrx1.mongodb.net/test?retryWrites=true&w=majority";
 
-        public static MongoClient Getconnection()
+        public static MongoClient GetConnection()
         {
             return new MongoClient(connectionString);
         }

@@ -1,34 +1,39 @@
 ﻿using MongoDB.Bson;
-using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace bank_forms.src.BankCards
 {
     class CreditCard : ICard
     {
-        public ObjectId CardID 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public string Validity 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public int Percent 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public int MaximumLimit 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
-        }
-        public string CardType 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+        [BsonId]
+        public ObjectId CardID { get; set; }
+        [BsonElement("Validity")]
+        public string Validity { get; set; }
+
+        [BsonElement("Percent")]
+        public int Percent { get; set; }
+
+        [BsonElement("MaximumLimit")]
+        public int MaximumLimit { get; set; }
+
+        [BsonElement("CardType")]
+        public string CardType { get; set; }
+
+        [BsonElement("CardNumber")]
+        public int CardNumber { get; set; }
+
+        [BsonElement("CVV")]
+        public string CVV { get; set; }
+
+        public CreditCard(ObjectId cardId, string validity, int cardNumber, string cvvCode, int percent = 0, int maxLimit = 0)
+        {
+            CardID = cardId;
+            Validity = validity;
+            CardNumber = cardNumber;
+            CVV = cvvCode;
+            Percent = percent;
+            MaximumLimit = maxLimit;
+            CardType = "Кредитная карта";
         }
     }
 }

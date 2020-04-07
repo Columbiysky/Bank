@@ -100,7 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\BankCards\CardManagment.cs" />
+    <Compile Include="src\BankCards\CardManagement.cs" />
     <Compile Include="src\BankCards\CreditCard.cs" />
     <Compile Include="src\BankCards\DebitCard.cs" />
     <Compile Include="src\BankClient\Client.cs" />
@@ -129,6 +129,12 @@
     <Compile Include="src\BankCards\ICard.cs" />
     <Compile Include="src\BankCards\ICardOperations.cs" />
     <Compile Include="src\DBConnection\DBConnect.cs" />
+    <Compile Include="testAddCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="testAddCard.Designer.cs">
+      <DependentUpon>testAddCard.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -146,6 +152,9 @@
     </Compile>
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="testAddCard.resx">
+      <DependentUpon>testAddCard.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="bin\Debug\bank_forms.exe.config" />
     <None Include="obj\Debug\bank_forms.csprojAssemblyReference.cache" />
