@@ -36,7 +36,7 @@ namespace bank_forms
         {
             try
             {
-                var creditCard = CardManagement.CreateCreditCard(DBConnect.GetConnection(), "10.06.2025", 10, 50000, "Кредитная карта");
+                var creditCard = CardManagement.CreateCreditCard(DBConnect.GetConnection(), "10.06.2025", 10, 50000);
                 MessageBox.Show("Успешно");
             }
             catch (Exception exc)

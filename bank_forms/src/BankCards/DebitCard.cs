@@ -21,12 +21,12 @@ namespace bank_forms.src.BankCards
         public string CardType { get; set; }
 
         [BsonElement("CardNumber")]
-        public int CardNumber { get; set; }
+        public long CardNumber { get; set; }
 
         [BsonElement("CVV")]
         public string CVV { get; set; }
 
-        public DebitCard(ObjectId cardId, string validity, int cardNumber, string cvvCode)
+        public DebitCard(ObjectId cardId, string validity, long cardNumber, string cvvCode)
         {
             CardID = cardId;
             Validity = validity;
