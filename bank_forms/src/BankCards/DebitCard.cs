@@ -1,7 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
-using System;
 
 namespace bank_forms.src.BankCards
 {
@@ -22,13 +20,21 @@ namespace bank_forms.src.BankCards
         [BsonElement("CardType")]
         public string CardType { get; set; }
 
-        public DebitCard(ObjectId cardId, string validity, int percent = 0, int maxLimit = 0, string cardType = "Дебетовая карта")
+        [BsonElement("CardNumber")]
+        public int CardNumber { get; set; }
+
+        [BsonElement("CVV")]
+        public int CVV { get; set; }
+
+        public DebitCard(ObjectId cardId, string validity, int cardNumber, int cvvCode)
         {
             CardID = cardId;
             Validity = validity;
-            Percent = percent;
-            MaximumLimit = maxLimit;
-            CardType = cardType;
+            Percent = 0;
+            MaximumLimit = 0;
+            CardType = "Дебетовая карта";
+            CardNumber = cardNumber;
+            CVV = cvvCode;
         }
     }
 }
