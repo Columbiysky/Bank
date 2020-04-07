@@ -68,6 +68,8 @@ namespace bank_forms.src.BankCards
 
         private static int GenerateCVV()
         {
+            Random cvv = new Random();
+            cvv.Next(0, 999);
             throw new NotImplementedException();
         }
     }

@@ -23,9 +23,9 @@ namespace bank_forms.src.BankCards
         public int CardNumber { get; set; }
 
         [BsonElement("CVV")]
-        public int CVV { get; set; }
+        public string CVV { get; set; }
 
-        public CreditCard(ObjectId cardId, string validity, int cardNumber, int cvvCode, int percent = 0, int maxLimit = 0)
+        public CreditCard(ObjectId cardId, string validity, int cardNumber, string cvvCode, int percent = 0, int maxLimit = 0)
         {
             CardID = cardId;
             Validity = validity;
