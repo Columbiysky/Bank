@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace bank_forms
 {
-    interface IClient //Интерфейс клиента, тут все само собой
+    public interface IClient //Интерфейс клиента, тут все само собой
     {
         ObjectId client_id { get; set; }
         long client_id64 { get; set; }

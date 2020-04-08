@@ -64,6 +64,11 @@ namespace bank_forms.src.BankCards
             return new CreditCard(objId, validity, cardNumber, cvvCode, percent, maxLimit);
         }
 
+        public static void TransferMoneyToClient(IClient sender, IClient reciever)
+        {
+
+        }
+
         private static long GanerateCardNumber()
         {
             Random random = new Random();
