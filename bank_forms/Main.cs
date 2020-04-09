@@ -59,18 +59,34 @@ namespace bank_forms
 
             //response.Close();
 
-            string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";
-            string DaDataSecret = "815788af76613100cd9df99ac7d86d96e0c18564";
-            SuggestClient api = new SuggestClient(DaDataToken);
-            var query = txtBx_Address.Text;
-            var response = api.SuggestAddress(query);
-            var address_data = response.suggestions[0].data;
-            var address_data_2 = response.suggestions[1].data;
-            textBox1.Text += "Address_data 1"+address_data.city + " " + address_data.city_type + " " + address_data.area + " " + address_data.area_type +
-                            " " + address_data.city_district + " "+ address_data.city_district_type + " "+
-                            address_data.street+ " "+address_data.house+" "+address_data.house_type+" "+address_data.postal_code+ 
-                            " "+ address_data.city_area+ " " + "\r\n\n" + "Address_data 2" + address_data_2.region + " "+
-                            address_data_2.region_type + "\r\n" ;
+            try
+            {
+                string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";
+                string DaDataSecret = "815788af76613100cd9df99ac7d86d96e0c18564";
+                SuggestClient api = new SuggestClient(DaDataToken);
+                var query = txtBx_Address.Text;
+                var response = api.SuggestAddress(query);
+                var address_data = response.suggestions[0].data;
+                var address_data_2 = response.suggestions[1].data;
+
+                textBox1.Text += response.suggestions.Count+
+                    "   Address_data 1" + address_data.city + " " + address_data.city_type + " " +
+                                 address_data.area + " " + address_data.area_type +
+                                 " " + address_data.city_district + " " + address_data.city_district_type + " " +
+                                 address_data.street + " " + address_data.house + " " + address_data.house_type + " " +
+                                 address_data.postal_code +
+                                 " " + address_data.city_area + " " + "\r\n\n" + "Address_data 2" +
+                                 address_data_2.region + " " +
+                                 address_data_2.region_type + "\r\n";
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             //foreach (var item in response.Result.Suggestions)
             //{
