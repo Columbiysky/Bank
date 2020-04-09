@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace bank_forms
 {
-    class Client : IClient //класс клиента, наследованный от интерфейса
+    public class Client : IClient //класс клиента, наследованный от интерфейса
     {
         public virtual ObjectId client_id { get /*=> throw new NotImplementedException()*/; set /*=> throw new NotImplementedException()*/; }
         public virtual long client_id64 { get /*=>throw new NotImplementedException()*/; set /*=> throw new NotImplementedException()*/; }

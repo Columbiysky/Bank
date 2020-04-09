@@ -100,10 +100,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\BankAccount\BankAccount.cs" />
     <Compile Include="src\BankCards\CardManagement.cs" />
     <Compile Include="src\BankCards\CreditCard.cs" />
     <Compile Include="src\BankCards\DebitCard.cs" />
     <Compile Include="src\BankClient\Client.cs" />
+    <Compile Include="src\BankClient\ClientAccount.cs" />
     <Compile Include="src\BankClient\IClient.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
