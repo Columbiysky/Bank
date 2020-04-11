@@ -14,9 +14,9 @@ namespace bank_forms.src.BankClient
         [BsonElement("IdBankAccount")]
         public ObjectId IdBankAccount { get; set; }
 
-        public BankAccount CreateAccount(IClient login)
-        {
-            return new BankAccount();
-        }
+        //public BankAccount CreateAccount(IClient login)
+        //{
+        //    return new BankAccount();
+        //}
     }
 }

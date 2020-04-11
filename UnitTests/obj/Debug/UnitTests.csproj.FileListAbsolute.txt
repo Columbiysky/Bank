@@ -33,3 +33,8 @@ D:\Google Drive\edu\3k\ПИС\course\UnitTests\obj\Debug\UnitTests.csproj.CoreCo
 D:\Google Drive\edu\3k\ПИС\course\UnitTests\obj\Debug\UnitTests.csproj.CopyComplete
 D:\Google Drive\edu\3k\ПИС\course\UnitTests\obj\Debug\UnitTests.dll
 D:\Google Drive\edu\3k\ПИС\course\UnitTests\obj\Debug\UnitTests.pdb
+D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Dadata.dll
+D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\KladrApiClient.dll
+D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Newtonsoft.Json.dll
+D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Newtonsoft.Json.Net20.dll
+D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Newtonsoft.Json.xml

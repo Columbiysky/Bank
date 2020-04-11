@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.btn_Edit = new System.Windows.Forms.Button();
             this.txtBx_Address = new System.Windows.Forms.TextBox();
             this.txtBx_Phone = new System.Windows.Forms.TextBox();
@@ -42,14 +43,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.listBox1);
             this.groupBox1.Controls.Add(this.btn_Edit);
             this.groupBox1.Controls.Add(this.txtBx_Address);
             this.groupBox1.Controls.Add(this.txtBx_Phone);
@@ -69,6 +69,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Профиль";
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 16;
+            this.listBox1.Location = new System.Drawing.Point(12, 187);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(579, 404);
+            this.listBox1.TabIndex = 13;
+            this.listBox1.Visible = false;
+            this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
+            // 
             // btn_Edit
             // 
             this.btn_Edit.Location = new System.Drawing.Point(394, 46);
@@ -84,7 +95,7 @@
             this.txtBx_Address.Enabled = false;
             this.txtBx_Address.Location = new System.Drawing.Point(93, 155);
             this.txtBx_Address.Name = "txtBx_Address";
-            this.txtBx_Address.Size = new System.Drawing.Size(252, 22);
+            this.txtBx_Address.Size = new System.Drawing.Size(451, 22);
             this.txtBx_Address.TabIndex = 9;
             this.txtBx_Address.TextChanged += new System.EventHandler(this.txtBx_Address_TextChanged);
             // 
@@ -186,14 +197,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Coming soon...";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(9, 187);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(582, 410);
-            this.textBox1.TabIndex = 11;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,7 +219,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtBx_Address;
         private System.Windows.Forms.TextBox txtBx_Phone;
         private System.Windows.Forms.TextBox txtBx_Second_Name;
         private System.Windows.Forms.TextBox txtBx_Name;
@@ -227,6 +229,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_Edit;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox txtBx_Address;
     }
 }
