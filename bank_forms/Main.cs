@@ -99,6 +99,15 @@ namespace bank_forms
                         address_bson = doc;
             }
 
+            var id_street_city = address_bson.GetValue("ID_street_city");
+            var street_city_collection = db.GetCollection<BsonDocument>("street_city");
+            var home = address_bson.GetValue("Home");
+            var index = address_bson.GetValue("Index");
+
+            //cursor = 
+            BsonDocument country_city_bson = null;
+            BsonDocument street_city_bson = null;
+
 
 
             return null;
