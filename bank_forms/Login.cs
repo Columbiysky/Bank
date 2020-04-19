@@ -61,6 +61,9 @@ namespace bank_forms
 
                     //MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close(); //Закрываем текущую
+
+                    new Thread(() => Application.Run(new testAddCard(app_client))).Start(); // потестить кое-ч
+
                     new Thread(() => Application.Run(new Main(client, app_client.client_id64))).Start();  //Делаем главной вторую
                 }
 

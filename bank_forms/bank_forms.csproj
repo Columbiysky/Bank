@@ -100,7 +100,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\BankAccount\BankAccount.cs" />
+    <Compile Include="src\BankAccount\BankAccounts.cs" />
+    <Compile Include="src\BankAccount\BankAccountManagement.cs" />
     <Compile Include="src\BankCards\CardManagement.cs" />
     <Compile Include="src\BankCards\CreditCard.cs" />
     <Compile Include="src\BankCards\DebitCard.cs" />

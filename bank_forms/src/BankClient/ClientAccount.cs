@@ -1,22 +1,25 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using bank_forms.src.BankAccount;
 
 namespace bank_forms.src.BankClient
 {
     public class ClientAccount
     {
         [BsonId]
-        public ObjectId BankAccountId { get; set; }
+        public ObjectId ClientAccId { get; set; }
 
         [BsonElement("ClientId")]
-        IClient ClientId { get; set; }
+        long ClientId { get; set; }
 
         [BsonElement("IdBankAccount")]
         public ObjectId IdBankAccount { get; set; }
 
-        //public BankAccount CreateAccount(IClient login)
-        //{
-        //    return new BankAccount();
-        //}
+        public ClientAccount(ObjectId clientAccId, IClient client, BankAccounts account)
+        {
+            ClientAccId = clientAccId;
+            ClientId = client.client_id64;
+            IdBankAccount = account.IdBankAccount;
+        }
     }
 }
