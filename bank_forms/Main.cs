@@ -29,6 +29,8 @@ namespace bank_forms
         private IClient app_client, old_client;
         private bool EditMode = false;
         private long _id { get; }
+        private string old_address { get; set; }
+
         public Main(MongoClient client_, long id)
         {
             _id = id;
@@ -70,6 +72,8 @@ namespace bank_forms
                 old_client.Name = txtBx_Name.Text;
                 old_client.Second_name = txtBx_Second_Name.Text;
                 old_client.Phone = long.Parse(txtBx_Phone.Text);
+
+                old_address = txtBx_Address.Text;
 
                 btn_Edit.Text = "Завершить редактирование";
             }
@@ -156,9 +160,9 @@ namespace bank_forms
         {
             string value = "";
             if (ID_addresses_dict.TryGetValue((int) numericUpDown_clientAddresses.Value, out value))
-            {
                 txtBx_Address.Text = value;
-            }
+
+            old_address = txtBx_Address.Text;
         }
 
         private void FillInfo(long id)
@@ -194,39 +198,69 @@ namespace bank_forms
             var client_address_collection = db.GetCollection<BsonDocument>("client_address");
             string address = "";
 
-                for (int i = 0; i < txtBx_Address.Text.Length; i++)
+            for (int i = 0; i < txtBx_Address.Text.Length; i++)
+            {
+                if (txtBx_Address.Text[i] == 'д' && txtBx_Address.Text[i + 1] == ' '
+                                                 && Char.IsDigit(txtBx_Address.Text, i + 2))
                 {
-                    if (txtBx_Address.Text[i] == 'д' && txtBx_Address.Text[i + 1] == ' '
-                                                     && Char.IsDigit(txtBx_Address.Text, i + 2))
-                    {
-                        address = txtBx_Address.Text;
-                        break;
-                    }
-
-                    else if (i == txtBx_Address.Text.Length - 2 && txtBx_Address.Text[i] != 'д')
-                    {
-                        MessageBox.Show("Адрес заполнен не до конца!");
-                        return;
-                    }
+                    address = txtBx_Address.Text;
+                    break;
                 }
 
-                long ID_client_address = client_address_collection.CountDocuments(new BsonDocument());
-
-                var client_address_bson = new BsonDocument
+                else if (i == txtBx_Address.Text.Length - 2 && txtBx_Address.Text[i] != 'д')
                 {
-                    {"_id", ID_client_address },
-                    {"ID_Client", _id },
-                    {"Address", txtBx_Address.Text }
-                };
-                
-                client_address_collection.InsertOne(client_address_bson);
+                    MessageBox.Show("Адрес не заполнен до конца!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
 
-                MessageBox.Show("added");
+            long ID_client_address = client_address_collection.CountDocuments(new BsonDocument());
+
+            var client_address_bson = new BsonDocument
+            {
+                {"_id", ID_client_address },
+                {"ID_Client", _id },
+                {"Address", txtBx_Address.Text }
+            };
+            
+            client_address_collection.InsertOne(client_address_bson);
+
+            MessageBox.Show("Адрес успешно добавлен!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void RemoveAddress_btn_Click(object sender, EventArgs e)
         {
+            BsonDocument filter;
+            if (txtBx_Address.Text!="")
+               filter = new BsonDocument("Address", txtBx_Address.Text);
+            else
+                return;
 
+            var address_client_col = db.GetCollection<BsonDocument>("client_address");
+            address_client_col.DeleteOne(filter);
+        }
+
+        private void UpdateAddress_btn_Click(object sender, EventArgs e)
+        {
+            if (old_address != "")
+            {
+                var client_address_col = db.GetCollection<BsonDocument>("client_address");
+                var filter = new BsonDocument
+                {
+                    {"ID_Client", _id },
+                    {"Address", old_address }
+                };
+                var NewAddress = Builders<BsonDocument>.Update.Set("Address",txtBx_Address.Text);
+                client_address_col.UpdateOne(filter, NewAddress);
+                FillAddress(_id);
+                MessageBox.Show("updated");
+            }
+            else
+            {
+                MessageBox.Show("Старого адреса не существовало, будет добавлен новый!", "Info",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                AddAddress_btn.PerformClick();
+            }
         }
 
         private void SaveChanges()

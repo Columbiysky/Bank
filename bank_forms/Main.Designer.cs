@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.UpdateAddress_btn = new System.Windows.Forms.Button();
             this.RemoveAddress_btn = new System.Windows.Forms.Button();
             this.AddAddress_btn = new System.Windows.Forms.Button();
             this.txtBx_INN = new System.Windows.Forms.TextBox();
@@ -55,6 +56,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.UpdateAddress_btn);
             this.groupBox1.Controls.Add(this.RemoveAddress_btn);
             this.groupBox1.Controls.Add(this.AddAddress_btn);
             this.groupBox1.Controls.Add(this.txtBx_INN);
@@ -80,11 +82,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Профиль";
             // 
+            // UpdateAddress_btn
+            // 
+            this.UpdateAddress_btn.Location = new System.Drawing.Point(522, 263);
+            this.UpdateAddress_btn.Name = "UpdateAddress_btn";
+            this.UpdateAddress_btn.Size = new System.Drawing.Size(69, 30);
+            this.UpdateAddress_btn.TabIndex = 19;
+            this.UpdateAddress_btn.Text = "Upd";
+            this.UpdateAddress_btn.UseVisualStyleBackColor = true;
+            this.UpdateAddress_btn.Click += new System.EventHandler(this.UpdateAddress_btn_Click);
+            // 
             // RemoveAddress_btn
             // 
+            this.RemoveAddress_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RemoveAddress_btn.Location = new System.Drawing.Point(558, 220);
             this.RemoveAddress_btn.Name = "RemoveAddress_btn";
-            this.RemoveAddress_btn.Size = new System.Drawing.Size(33, 23);
+            this.RemoveAddress_btn.Size = new System.Drawing.Size(33, 37);
             this.RemoveAddress_btn.TabIndex = 18;
             this.RemoveAddress_btn.Text = "-";
             this.RemoveAddress_btn.UseVisualStyleBackColor = true;
@@ -92,9 +105,10 @@
             // 
             // AddAddress_btn
             // 
+            this.AddAddress_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddAddress_btn.Location = new System.Drawing.Point(522, 220);
             this.AddAddress_btn.Name = "AddAddress_btn";
-            this.AddAddress_btn.Size = new System.Drawing.Size(30, 23);
+            this.AddAddress_btn.Size = new System.Drawing.Size(30, 37);
             this.AddAddress_btn.TabIndex = 17;
             this.AddAddress_btn.Text = "+";
             this.AddAddress_btn.UseVisualStyleBackColor = true;
@@ -129,7 +143,7 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(18, 274);
+            this.listBox1.Location = new System.Drawing.Point(12, 299);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(579, 84);
             this.listBox1.TabIndex = 13;
@@ -152,7 +166,7 @@
             this.txtBx_Address.Location = new System.Drawing.Point(93, 220);
             this.txtBx_Address.Multiline = true;
             this.txtBx_Address.Name = "txtBx_Address";
-            this.txtBx_Address.Size = new System.Drawing.Size(422, 48);
+            this.txtBx_Address.Size = new System.Drawing.Size(422, 73);
             this.txtBx_Address.TabIndex = 9;
             this.txtBx_Address.TextChanged += new System.EventHandler(this.txtBx_Address_TextChanged);
             // 
@@ -294,5 +308,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button RemoveAddress_btn;
         private System.Windows.Forms.Button AddAddress_btn;
+        private System.Windows.Forms.Button UpdateAddress_btn;
     }
 }
