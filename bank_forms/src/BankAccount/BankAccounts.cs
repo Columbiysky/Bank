@@ -3,10 +3,13 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace bank_forms.src.BankAccount
 {
-    public class BankAccount
+    public class BankAccounts
     {
         [BsonId]
         public ObjectId IdBankAccount { get; set; }
+
+        [BsonElement("AccountType")]
+        public string AccountType { get; set; }
 
         [BsonElement("Balance")]
         public int Balance { get; set; }
@@ -20,9 +23,10 @@ namespace bank_forms.src.BankAccount
         [BsonElement("IsActive")]
         public bool IsActive { get; set; }
 
-        public BankAccount(ObjectId idBankAccount, int balance, string startDate, string finishDate, bool isActive)
+        public BankAccounts(ObjectId idBankAccount, string accountType, int balance, string startDate, string finishDate, bool isActive)
         {
             IdBankAccount = idBankAccount;
+            AccountType = accountType;
             Balance = balance;
             Startdate = startDate;
             FinishDate = finishDate;
