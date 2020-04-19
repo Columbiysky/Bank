@@ -24,7 +24,6 @@ namespace bank_forms
         private MongoClient client;
         string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";
         //string DaDataSecret = "815788af76613100cd9df99ac7d86d96e0c18564";
-        private bool nodata = false;
         Dictionary<int, string> ID_addresses_dict;
         private IMongoDatabase db;
         private IClient app_client, old_client;
@@ -73,7 +72,6 @@ namespace bank_forms
                 old_client.Phone = long.Parse(txtBx_Phone.Text);
 
                 btn_Edit.Text = "Завершить редактирование";
-                MessageBox.Show(app_client.client_id64.ToString());
             }
             else
             {
@@ -83,14 +81,11 @@ namespace bank_forms
                 foreach (Button item in groupBox1.Controls.OfType<Button>())
                     if(item != btn_Edit)
                         item.Enabled = false;
-
-                numericUpDown_clientAddresses.Enabled = false;
-
+                
                 EditMode = false;
                 btn_Edit.Text = "Редактировать";
                 listBox1.Visible = false;
-
-                MessageBox.Show(app_client.client_id64.ToString());
+                SaveChanges();
             }
 
         }
@@ -198,19 +193,12 @@ namespace bank_forms
             var id_address = numericUpDown_clientAddresses.Maximum;
             var client_address_collection = db.GetCollection<BsonDocument>("client_address");
             string address = "";
-            //var cursor_client_address = client_address_collection.FindSync(new BsonDocument("ID_Client", _id));
-
-            //while (cursor_client_address.MoveNext())
-            //{
-                //var client_addresses = cursor_client_address.Current;
 
                 for (int i = 0; i < txtBx_Address.Text.Length; i++)
                 {
-                    string str = "";
                     if (txtBx_Address.Text[i] == 'д' && txtBx_Address.Text[i + 1] == ' '
                                                      && Char.IsDigit(txtBx_Address.Text, i + 2))
                     {
-                        //char str = txtBx_Address.Text[i];
                         address = txtBx_Address.Text;
                         break;
                     }
@@ -220,10 +208,6 @@ namespace bank_forms
                         MessageBox.Show("Адрес заполнен не до конца!");
                         return;
                     }
-                    //else
-                    //{
-                    //     str += txtBx_Address.Text[i];
-                    //}
                 }
 
                 long ID_client_address = client_address_collection.CountDocuments(new BsonDocument());
@@ -238,7 +222,6 @@ namespace bank_forms
                 client_address_collection.InsertOne(client_address_bson);
 
                 MessageBox.Show("added");
-            //}
         }
 
         private void RemoveAddress_btn_Click(object sender, EventArgs e)
@@ -257,7 +240,7 @@ namespace bank_forms
                 _surname = Builders<BsonDocument>.Update.Set("Surname", txtBx_Surname.Text);
 
             if (old_client.Name != txtBx_Name.Text)
-                _name = Builders<BsonDocument>.Update.Set("Name", txtBx_Name);
+                _name = Builders<BsonDocument>.Update.Set("Name", txtBx_Name.Text);
 
             if (old_client.Second_name != txtBx_Second_Name.Text)
                 _second_name = Builders<BsonDocument>.Update.Set("Second_name", txtBx_Second_Name.Text);
