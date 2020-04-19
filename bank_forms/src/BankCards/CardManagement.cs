@@ -14,7 +14,7 @@ namespace bank_forms.src.BankCards
             var objId = ObjectId.GenerateNewId();
 
             string cvvCode = GenerateCVV();
-            long cardNumber = GanerateCardNumber();
+            long cardNumber = GenerateCardNumber();
 
             BsonDocument debitCard = new BsonDocument
             {
@@ -46,7 +46,7 @@ namespace bank_forms.src.BankCards
             var objId = ObjectId.GenerateNewId();
 
             string cvvCode = GenerateCVV();
-            long cardNumber = GanerateCardNumber();
+            long cardNumber = GenerateCardNumber();
 
             BsonDocument creditCard = new BsonDocument
             {
@@ -69,7 +69,7 @@ namespace bank_forms.src.BankCards
 
         }
 
-        private static long GanerateCardNumber()
+        private static long GenerateCardNumber()
         {
             Random random = new Random();
             long foobar = random.NextLong(1000000000000000, 10000000000000000);
