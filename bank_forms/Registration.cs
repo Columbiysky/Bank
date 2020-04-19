@@ -29,8 +29,9 @@ namespace bank_forms
             var collection = db.GetCollection<BsonDocument>("clients");
             if (Check()) //чекаем что все поля заполнены
             {
-                newClient = GetData(newClient, collection); //заполняем все что можем
-                var insertDoc = convertToBsonDocument(newClient); //конвертируем в BSON чтобы заполнить в базе
+               // newClient = GetData(newClient, collection); //заполняем все что можем
+                var insertDoc = convertToBsonDocument(
+                    GetData(newClient, collection)); //конвертируем в BSON чтобы заполнить в базе
                 if (insertDoc == null) //Если еще с GetData null кидаем - вылетаем и тип ващ хз что делать 
                     return; //мб это можно сделать более адекватно, но я уже подтупливаю конкретно
                 else

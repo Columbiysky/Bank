@@ -16,7 +16,7 @@ namespace bank_forms
     public partial class Login : Form
     {
         private MongoClient client;
-        private IClient app_client = new Client();
+        private IClient app_client ;
         
 
         public Login()
@@ -29,6 +29,7 @@ namespace bank_forms
 
         private void Btn_login_Click(object sender, EventArgs e)
         {
+            app_client = new Client();
             var db = client.GetDatabase("bank"); //ну с ангийского переведи
             var collection = db.GetCollection<BsonDocument>("clients"); //и тут, что такое BsonDocument - до конца не понял, но мне реально поебать
 
@@ -60,7 +61,7 @@ namespace bank_forms
 
                     //MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close(); //Закрываем текущую
-                    new Thread(() => Application.Run(new Main(client))).Start();  //Делаем главной вторую
+                    new Thread(() => Application.Run(new Main(client, app_client.client_id64))).Start();  //Делаем главной вторую
                 }
 
             }
