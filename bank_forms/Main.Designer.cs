@@ -84,6 +84,7 @@
             // 
             // UpdateAddress_btn
             // 
+            this.UpdateAddress_btn.Enabled = false;
             this.UpdateAddress_btn.Location = new System.Drawing.Point(522, 263);
             this.UpdateAddress_btn.Name = "UpdateAddress_btn";
             this.UpdateAddress_btn.Size = new System.Drawing.Size(69, 30);
@@ -94,6 +95,7 @@
             // 
             // RemoveAddress_btn
             // 
+            this.RemoveAddress_btn.Enabled = false;
             this.RemoveAddress_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RemoveAddress_btn.Location = new System.Drawing.Point(558, 220);
             this.RemoveAddress_btn.Name = "RemoveAddress_btn";
@@ -105,6 +107,7 @@
             // 
             // AddAddress_btn
             // 
+            this.AddAddress_btn.Enabled = false;
             this.AddAddress_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddAddress_btn.Location = new System.Drawing.Point(522, 220);
             this.AddAddress_btn.Name = "AddAddress_btn";

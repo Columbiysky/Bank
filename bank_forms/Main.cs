@@ -31,6 +31,8 @@ namespace bank_forms
         private long _id { get; }
         private string old_address { get; set; }
 
+        private bool SelectedFromListBox = false;
+
         public Main(MongoClient client_, long id)
         {
             _id = id;
@@ -90,6 +92,7 @@ namespace bank_forms
                 btn_Edit.Text = "Редактировать";
                 listBox1.Visible = false;
                 SaveChanges();
+                FillAddress(_id);
             }
 
         }
@@ -98,6 +101,8 @@ namespace bank_forms
         {
             if (EditMode)
             {
+                SelectedFromListBox = false;
+
                 if (txtBx_Address.Text != "")
                     foreach (ListBox Listbox in groupBox1.Controls.OfType<ListBox>())
                         Listbox.Visible = true;
@@ -117,8 +122,15 @@ namespace bank_forms
             }
         }
 
-        private void listBox1_Click(object sender, EventArgs e) => 
-            txtBx_Address.Text = listBox1.SelectedItem.ToString();
+        private void listBox1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                txtBx_Address.Text = listBox1.SelectedItem.ToString();
+                SelectedFromListBox = true;
+            }
+            catch(NullReferenceException) { }
+        }
 
         private void FillAddress(long id/*, IMongoCollection<BsonDocument> client_address*/)
         {
@@ -201,15 +213,16 @@ namespace bank_forms
             for (int i = 0; i < txtBx_Address.Text.Length; i++)
             {
                 if (txtBx_Address.Text[i] == 'д' && txtBx_Address.Text[i + 1] == ' '
-                                                 && Char.IsDigit(txtBx_Address.Text, i + 2))
+                                                 && Char.IsDigit(txtBx_Address.Text, i + 2) && SelectedFromListBox)
                 {
                     address = txtBx_Address.Text;
                     break;
                 }
 
-                else if (i == txtBx_Address.Text.Length - 2 && txtBx_Address.Text[i] != 'д')
+                else if (i == txtBx_Address.Text.Length - 2 && txtBx_Address.Text[i] != 'д' )
                 {
-                    MessageBox.Show("Адрес не заполнен до конца!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Адрес не заполнен до конца! " +
+                                    "Пожалуйста выберете адрес из списка ниже!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -218,12 +231,25 @@ namespace bank_forms
 
             var client_address_bson = new BsonDocument
             {
-                {"_id", ID_client_address },
                 {"ID_Client", _id },
                 {"Address", txtBx_Address.Text }
             };
+
+            var cursor = client_address_collection.FindSync(client_address_bson);
+            while (cursor.MoveNext())
+            {
+                var addresses = cursor.Current;
+                if (addresses.Count() > 0)
+                {
+                    MessageBox.Show("Данный адрес уже записан!", "Info", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+            }
             
             client_address_collection.InsertOne(client_address_bson);
+
+            FillAddress(_id);
 
             MessageBox.Show("Адрес успешно добавлен!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -238,10 +264,13 @@ namespace bank_forms
 
             var address_client_col = db.GetCollection<BsonDocument>("client_address");
             address_client_col.DeleteOne(filter);
+            FillAddress(_id);
+            MessageBox.Show("Адрес успешно удален!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void UpdateAddress_btn_Click(object sender, EventArgs e)
         {
+            UpdateDefinition<BsonDocument> NewAddress = null;
             if (old_address != "")
             {
                 var client_address_col = db.GetCollection<BsonDocument>("client_address");
@@ -250,7 +279,36 @@ namespace bank_forms
                     {"ID_Client", _id },
                     {"Address", old_address }
                 };
-                var NewAddress = Builders<BsonDocument>.Update.Set("Address",txtBx_Address.Text);
+
+                for (int i = 0; i < txtBx_Address.Text.Length; i++)
+                {
+                    if (txtBx_Address.Text[i] == 'д' && txtBx_Address.Text[i + 1] == ' '
+                                                     && Char.IsDigit(txtBx_Address.Text, i + 2) && SelectedFromListBox)
+                    {
+                        NewAddress = Builders<BsonDocument>.Update.Set("Address", txtBx_Address.Text);
+                        break;
+                    }
+
+                    else if (i == txtBx_Address.Text.Length - 2 && txtBx_Address.Text[i] != 'д')
+                    {
+                        MessageBox.Show("Адрес не заполнен до конца! " +
+                                        "Пожалуйста выберете адрес из списка ниже!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                var cursor = client_address_col.FindSync(filter);
+                while (cursor.MoveNext())
+                {
+                    var addresses = cursor.Current;
+                    if (addresses.Count() > 0)
+                    {
+                        MessageBox.Show("Данный адрес уже записан!", "Info", MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+
                 client_address_col.UpdateOne(filter, NewAddress);
                 FillAddress(_id);
                 MessageBox.Show("updated");
