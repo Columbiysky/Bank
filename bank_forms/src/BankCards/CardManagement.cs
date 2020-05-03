@@ -36,7 +36,7 @@ namespace bank_forms.src.BankCards
         (
             MongoClient client, 
             string validity, 
-            int percent = 0, 
+            double percent = 0, 
             int maxLimit = 0
         )
         {

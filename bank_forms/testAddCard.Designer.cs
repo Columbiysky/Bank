@@ -31,6 +31,7 @@
             this.addCardBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.btnAddCard = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addCardBtn
@@ -63,11 +64,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // btnAddCard
+            // 
+            this.btnAddCard.Location = new System.Drawing.Point(551, 250);
+            this.btnAddCard.Name = "btnAddCard";
+            this.btnAddCard.Size = new System.Drawing.Size(256, 80);
+            this.btnAddCard.TabIndex = 3;
+            this.btnAddCard.Text = "Add a card to user acc";
+            this.btnAddCard.UseVisualStyleBackColor = true;
+            this.btnAddCard.Click += new System.EventHandler(this.btnAddCard_Click);
+            // 
             // testAddCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 450);
+            this.Controls.Add(this.btnAddCard);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.addCardBtn);
@@ -82,5 +94,6 @@
         private System.Windows.Forms.Button addCardBtn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnAddCard;
     }
 }

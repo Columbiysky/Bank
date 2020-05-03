@@ -11,7 +11,7 @@ namespace bank_forms.src.BankCards
         public string Validity { get; set; }
 
         [BsonElement("Percent")]
-        public int Percent { get; set; }
+        public double Percent { get; set; }
 
         [BsonElement("MaximumLimit")]
         public int MaximumLimit { get; set; }
@@ -25,7 +25,7 @@ namespace bank_forms.src.BankCards
         [BsonElement("CVV")]
         public string CVV { get; set; }
 
-        public CreditCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, int percent = 0, int maxLimit = 0)
+        public CreditCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, double percent = 0, int maxLimit = 0)
         {
             CardID = cardId;
             Validity = validity;

@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using bank_forms.src.BankAccount;
+using bank_forms.src.BankCards;
 
 namespace bank_forms.src.BankClient
 {

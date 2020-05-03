@@ -38,3 +38,6 @@ D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\KladrApiClient.dll
 D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Newtonsoft.Json.dll
 D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Newtonsoft.Json.Net20.dll
 D:\Google Drive\edu\3k\ПИС\course\UnitTests\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\Bank\UnitTests\obj\Debug\UnitTests.csprojAssemblyReference.cache
+D:\Projects\Bank\UnitTests\obj\Debug\UnitTests.dll
+D:\Projects\Bank\UnitTests\obj\Debug\UnitTests.pdb

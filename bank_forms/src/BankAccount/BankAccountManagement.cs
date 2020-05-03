@@ -1,4 +1,5 @@
-﻿using bank_forms.src.BankClient;
+﻿using bank_forms.src.BankCards;
+using bank_forms.src.BankClient;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -38,7 +39,7 @@ namespace bank_forms.src.BankAccount
         }
 
         /// <summary>
-        /// Создаем новый банковский аккаунт
+        /// Создать новый банковский аккаунт
         /// </summary>
         /// <param name="client"> Connection чтобы в базу сразу добавить </param>
         /// <param name="accountType"> Тип аккаунта </param>
@@ -76,6 +77,73 @@ namespace bank_forms.src.BankAccount
             collection.InsertOne(bankAccount);
 
             return new BankAccounts(bankAccId, accountType, balance, startDate, finishDate, isActive);
+        }
+
+        /// <summary>
+        /// Добавить существующую карту клиенту 
+        /// </summary>
+        /// <param name="connection"> Подключение к БД</param>
+        /// <param name="client"> Клиент </param>
+        /// <param name="card"> Карта </param>
+        public static void AddCardToClient(MongoClient connection, IClient client, ICard card)
+        {
+            var database = connection.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("users_cards");
+
+            var recordId = ObjectId.GenerateNewId();
+
+            BsonDocument clientCard = new BsonDocument
+            {
+                { "_id", recordId },
+                { "clientId", client.client_id64 },
+                { "cardId", card.CardID }
+            };
+
+            collection.InsertOne(clientCard);
+        }
+
+        /// <summary>
+        /// Создать дебетовую карту и добавить к пользователю
+        /// </summary>
+        /// <param name="client"> Подключение к БД </param>
+        /// <param name="user"> Клиент </param>
+        /// <param name="validity"> Валидность карты (до какого числа) </param>
+        public static void CreateDebitCardForClient(MongoClient client, IClient user, string validity)
+        {
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("users_cards");
+
+            var debitCard = CardManagement.CreateDebitCard(client, validity);
+
+            var recordId = ObjectId.GenerateNewId();
+
+            BsonDocument clientDebitCard = new BsonDocument
+            {
+                { "_id", recordId },
+                { "clientId", user.client_id64 },
+                { "cardId", debitCard.CardID }
+            };
+
+            collection.InsertOne(clientDebitCard);
+        }
+
+        public static void CreateCreditCardForClient(MongoClient client, IClient user, string validity, double percent = 0, int maxLimit = 0)
+        {
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("users_cards");
+
+            var creditCard = CardManagement.CreateDebitCard(client, validity);
+
+            var recordId = ObjectId.GenerateNewId();
+
+            BsonDocument clientCreditCard = new BsonDocument
+            {
+                { "_id", recordId },
+                { "clientId", user.client_id64 },
+                { "cardId", creditCard.CardID }
+            };
+
+            collection.InsertOne(clientCreditCard);
         }
     }
 }

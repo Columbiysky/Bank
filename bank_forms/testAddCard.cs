@@ -61,5 +61,18 @@ namespace bank_forms
                 MessageBox.Show("Ошибка");
             }
         }
+
+        private void btnAddCard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BankAccountManagement.CreateDebitCardForClient(DBConnect.GetConnection(), curClient, "12.12.2030");
+                MessageBox.Show("Успешно");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Ошибка");
+            }
+        }
     }
 }
