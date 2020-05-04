@@ -12,7 +12,7 @@ namespace bank_forms.src.BankCards
         public string Validity { get; set; }
 
         [BsonElement("Percent")]
-        public int Percent { get; set; }
+        public double Percent { get; set; }
 
         [BsonElement("MaximumLimit")]
         public int MaximumLimit { get; set; }

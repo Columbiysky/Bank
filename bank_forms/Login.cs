@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using System.Windows.Forms;
 using MongoDB.Driver;
@@ -62,7 +56,10 @@ namespace bank_forms
                     //MessageBox.Show("Все верно!", "Ок!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close(); //Закрываем текущую
 
+
+                    // !!!!!!!!!!!! УДАЛИТЬ ПОТОМ !!!!!!!!!!!
                     new Thread(() => Application.Run(new testAddCard(app_client))).Start(); // потестить кое-ч
+                    // !!!!!!!!!!!! УДАЛИТЬ ПОТОМ !!!!!!!!!!!
 
                     new Thread(() => Application.Run(new Main(client, app_client.client_id64))).Start();  //Делаем главной вторую
                 }

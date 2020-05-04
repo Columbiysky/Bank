@@ -9,7 +9,7 @@ namespace bank_forms.src.BankCards
 
         string Validity { get; set; }                                                   // до какого числа действительная карта
 
-        int Percent { get; set; }                                                       // процент по карте (если кредитная)
+        double Percent { get; set; }                                                       // процент по карте (если кредитная)
 
         int MaximumLimit { get; set; }                                                  // максимальный лимит карты
 
