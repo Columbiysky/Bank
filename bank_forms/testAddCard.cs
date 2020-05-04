@@ -96,5 +96,15 @@ namespace bank_forms
                 }
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var list = BankAccountManagement.GetUserBankAccounts(curClient);
+
+            foreach (var el in list)
+            {
+                MessageBox.Show(el.ToString());
+            }
+        }
     }
 }

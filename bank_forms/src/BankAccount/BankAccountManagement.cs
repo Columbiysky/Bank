@@ -1,7 +1,11 @@
 ﻿using bank_forms.src.BankCards;
 using bank_forms.src.BankClient;
+using bank_forms.src.DBConnection;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace bank_forms.src.BankAccount
 {
@@ -144,6 +148,41 @@ namespace bank_forms.src.BankAccount
             };
 
             collection.InsertOne(clientCreditCard);
+        }
+
+        /// <summary>
+        /// Получить список id всех банковских аккаунтов пользователя
+        /// </summary>
+        /// <param name="user"> IClient - нужный нам пользователь </param>
+        /// <returns> Список id </returns>
+        public static List<string> GetUserBankAccounts(IClient user)
+        {
+            List<string> userAccountsId = new List<string>();
+
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("client_account");
+
+            var filter = new BsonDocument("clientId", user.client_id64);
+            var cursor = collection.FindSync(filter);
+
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+                if (accounts.Count() == 0)
+                {
+                    throw new Exception("У данного клиента нет счетов");
+                }
+                else
+                {
+                    foreach (var account in accounts)
+                    {
+                        userAccountsId.Add(account.GetValue("_id").ToString());
+                    }
+                }
+            }
+
+            return userAccountsId;
         }
     }
 }
