@@ -34,6 +34,7 @@
             this.btnAddCard = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addCardBtn
@@ -72,7 +73,7 @@
             this.btnAddCard.Name = "btnAddCard";
             this.btnAddCard.Size = new System.Drawing.Size(256, 80);
             this.btnAddCard.TabIndex = 3;
-            this.btnAddCard.Text = "Add a card to user acc";
+            this.btnAddCard.Text = "Add a debit card to user acc";
             this.btnAddCard.UseVisualStyleBackColor = true;
             this.btnAddCard.Click += new System.EventHandler(this.btnAddCard_Click);
             // 
@@ -96,11 +97,22 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(473, 216);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(256, 85);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Add a credit card to user acc";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // testAddCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1161, 757);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnAddCard);
@@ -121,5 +133,6 @@
         private System.Windows.Forms.Button btnAddCard;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }

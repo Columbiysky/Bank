@@ -107,12 +107,13 @@ namespace bank_forms.src.BankAccount
         }
 
         /// <summary>
-        /// Создать дебетовую карту и добавить к пользователю
+        /// Создать дебетовую карту и привязать к банковскому аккаунту
         /// </summary>
         /// <param name="client"> Подключение к БД </param>
         /// <param name="user"> Клиент </param>
+        /// <param name="clientBankAccId"> ID клиентского аккаунта, к которому доавляем карту </param>
         /// <param name="validity"> Валидность карты (до какого числа) </param>
-        public static void CreateDebitCardForClient(MongoClient client, IClient user, string validity)
+        public static void CreateDebitCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
@@ -124,26 +125,35 @@ namespace bank_forms.src.BankAccount
             BsonDocument clientDebitCard = new BsonDocument
             {
                 { "_id", recordId },
-                { "bankAccountID", user.client_id64 },
+                { "clientBankAccountID", ObjectId.Parse(clientBankAccId) },
                 { "cardId", debitCard.CardID }
             };
 
             collection.InsertOne(clientDebitCard);
         }
 
-        public static void CreateCreditCardForClient(MongoClient client, IClient user, string validity, double percent = 0, int maxLimit = 0)
+        /// <summary>
+        /// Создать кредитную карту и привязать к банковскому аккаунту
+        /// </summary>
+        /// <param name="client"> Подключение к БД </param>
+        /// <param name="user"> Пользователь </param>
+        /// <param name="clientBankAccId"> ID клиентского аккаунта, к которому доавляем карту </param>
+        /// <param name="validity"> Валидность карты (до какого числа) </param>
+        /// <param name="percent"> Процент по карте </param>
+        /// <param name="maxLimit"> Максимальнйы лимит карты </param>
+        public static void CreateCreditCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity, double percent = 0, int maxLimit = 0)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
 
-            var creditCard = CardManagement.CreateDebitCard(client, validity);
+            var creditCard = CardManagement.CreateCreditCard(client, validity, percent, maxLimit);
 
             var recordId = ObjectId.GenerateNewId();
 
             BsonDocument clientCreditCard = new BsonDocument
             {
                 { "_id", recordId },
-                { "bankAccountID", user.client_id64 },
+                { "clientBankAccountID", ObjectId.Parse(clientBankAccId) },
                 { "cardId", creditCard.CardID }
             };
 
