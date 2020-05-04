@@ -122,5 +122,18 @@ namespace bank_forms
                 MessageBox.Show("Ошибка");
             }
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var id = BankAccountManagement.GetUserBankAccId(accId.First<string>().ToString());
+                MessageBox.Show(id);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("пиздец...");
+            }
+        }
     }
 }

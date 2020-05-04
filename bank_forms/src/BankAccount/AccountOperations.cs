@@ -8,28 +8,26 @@ namespace bank_forms.src.BankAccount
 {
     public class AccountOperations : IAccountOperations
     {
-        public void TransferMoneyIDKWhere(IClient sender, decimal mountAmount)
+        public void TransferMoneyIDKWhere(IClient sender, string senderAccId, decimal mountAmount)
         {
             throw new NotImplementedException();
         }
 
-        public void TransferMoneyToUserByNumber(IClient sender, long phoneNumber, decimal moneyAmount)
+        public void TransferMoneyToUserByNumber(IClient sender, string senderAccId, long phoneNumber, decimal moneyAmount)
         {
-            /*
-            var recieverId = FindUserByNumber(DBConnect.GetConnection(), phoneNumber);
+            // тут может вылететь эксепшен, CAREFUL!!!
+            long recieverId = FindUserByNumber(DBConnect.GetConnection(), phoneNumber);
 
-            var senderCash = 0;
+            decimal senderCash = 0;
+            string senderBankAccId = "";
 
             var database = DBConnect.GetConnection().GetDatabase("bank");
-            var collection = database.GetCollection<BsonDocument>("client_account");
+            var collectionClientAcc = database.GetCollection<BsonDocument>("client_account");
+            var collectionBankAcc = database.GetCollection<BsonDocument>("bank_account");
 
             // красиво блять написал... крч ищем в базе челика, который отдает грiвни
-            var filter = new BsonDocument("$and", new BsonArray
-            {
-                new BsonDocument()
-            }
-
-            var cursor = collection.FindSync<BsonDocument>(filter);
+            var filterSenderMoney = new BsonDocument("clientId", sender.client_id64);
+            var cursor = collectionClientAcc.FindSync<BsonDocument>(filterSenderMoney);
 
             // мб чет неправильно делаю, но работает, так что в пизду..
             while (cursor.MoveNext())
@@ -38,13 +36,18 @@ namespace bank_forms.src.BankAccount
 
                 foreach (var user in clients)
                 {
-                    senderCash = user.GetValue()
+                    
                 }
             }
-            */
 
         }
 
+        /// <summary>
+        /// Поиск пользователя в БД по номеру телефона
+        /// </summary>
+        /// <param name="client"> Коннекшн к базе </param>
+        /// <param name="phoneNumber"> Номер телефона </param>
+        /// <returns> ID пользователя, если таковой есть </returns>
         private long FindUserByNumber(MongoClient client, long phoneNumber)
         {
             long recieverId = -1;
@@ -63,6 +66,7 @@ namespace bank_forms.src.BankAccount
                 var clients = cursor.Current;
                 if (clients.Count() == 0)
                 {
+                    // хз что сделать, на пхй кину простой эксепшен!
                     throw new Exception("Клиентов с таким номеро телефона нет");
                 }
                 else

@@ -196,5 +196,36 @@ namespace bank_forms.src.BankAccount
 
             return userAccountsId;
         }
+
+        /// <summary>
+        /// Вернуть ID банковского аккаунта данного счета клиента
+        /// </summary>
+        /// <param name="userAccountId"> ID счета клиента </param>
+        /// <returns> ID банковского аккаунта </returns>
+        public static string GetUserBankAccId(string userAccountId)
+        {
+            string bankAccId = "";
+
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("client_account");
+
+            ObjectId objId = new ObjectId(userAccountId);
+
+            var filter = new BsonDocument("_id", objId);
+            var cursor = collection.FindSync(filter);
+
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    bankAccId = account.GetValue("bankAccId").ToString();
+                }
+            }
+
+            return bankAccId;
+        }
     }
 }

@@ -2,8 +2,8 @@
 {
     interface IAccountOperations
     {
-        void TransferMoneyToUserByNumber(IClient sender, long phoneNumber, decimal moneyAmount);
+        void TransferMoneyToUserByNumber(IClient sender, string senderAccId, long phoneNumber, decimal moneyAmount);
 
-        void TransferMoneyIDKWhere(IClient sender, decimal mountAmount);
+        void TransferMoneyIDKWhere(IClient sender, string senderAccId, decimal mountAmount);
     }
 }
