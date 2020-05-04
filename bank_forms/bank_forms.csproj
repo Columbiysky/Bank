@@ -100,8 +100,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\BankAccount\AccountOperations.cs" />
     <Compile Include="src\BankAccount\BankAccounts.cs" />
     <Compile Include="src\BankAccount\BankAccountManagement.cs" />
+    <Compile Include="src\BankAccount\IAccountOperations.cs" />
     <Compile Include="src\BankCards\CardManagement.cs" />
     <Compile Include="src\BankCards\CreditCard.cs" />
     <Compile Include="src\BankCards\DebitCard.cs" />
@@ -128,9 +130,7 @@
     <Compile Include="Registration.Designer.cs">
       <DependentUpon>Registration.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\BankCards\CardOperations.cs" />
     <Compile Include="src\BankCards\ICard.cs" />
-    <Compile Include="src\BankCards\ICardOperations.cs" />
     <Compile Include="src\DBConnection\DBConnect.cs" />
     <Compile Include="testAddCard.cs">
       <SubType>Form</SubType>

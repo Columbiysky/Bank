@@ -1,6 +1,7 @@
 ﻿using bank_forms.src.BankAccount;
 using bank_forms.src.BankCards;
 using bank_forms.src.DBConnection;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +31,7 @@ namespace bank_forms
                 var debitCard = CardManagement.CreateDebitCard(DBConnect.GetConnection(), "10.06.2025");
                 MessageBox.Show("Успешно");
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 MessageBox.Show("Ошибка");
             }
@@ -53,7 +54,7 @@ namespace bank_forms
         {
             try
             {
-                var acc = BankAccountManagement.CreateNewUserBankAccount(DBConnect.GetConnection(), curClient, "тест", 25000, "19.04.2020", "19.04.2025", true);
+                var acc = BankAccountManagement.CreateNewUserBankAccount(DBConnect.GetConnection(), curClient, "тест тестович", 228000000, "04.05.2020", "04.05.2035", true);
                 MessageBox.Show("Успешно");
             }
             catch (Exception exc)
@@ -72,6 +73,27 @@ namespace bank_forms
             catch (Exception exc)
             {
                 MessageBox.Show("Ошибка");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var client = DBConnect.GetConnection();
+            var db = client.GetDatabase("bank");
+            var collection = db.GetCollection<BsonDocument>("clients");
+
+            var filter = new BsonDocument("Name", "Sergey");
+
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            while (cursor.MoveNext())
+            {
+                var clients = cursor.Current;
+
+                foreach (var user in clients)
+                {
+                    MessageBox.Show(user.GetValue("Phone").ToString());
+                }
             }
         }
     }

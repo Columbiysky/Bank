@@ -120,7 +120,7 @@ namespace bank_forms.src.BankAccount
             BsonDocument clientDebitCard = new BsonDocument
             {
                 { "_id", recordId },
-                { "clientId", user.client_id64 },
+                { "bankAccountID", user.client_id64 },
                 { "cardId", debitCard.CardID }
             };
 
@@ -139,7 +139,7 @@ namespace bank_forms.src.BankAccount
             BsonDocument clientCreditCard = new BsonDocument
             {
                 { "_id", recordId },
-                { "clientId", user.client_id64 },
+                { "bankAccountID", user.client_id64 },
                 { "cardId", creditCard.CardID }
             };
 
