@@ -9,6 +9,8 @@ using System.Linq;
 
 namespace bank_forms.src.BankAccount
 {
+    // я делаю говно...
+
     public static class BankAccountManagement
     {
         /// <summary>
