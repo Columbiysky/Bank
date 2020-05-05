@@ -15,28 +15,34 @@ namespace bank_forms.src.BankAccount
 
         public void TransferMoneyToUserByNumber(IClient sender, string senderAccId, long phoneNumber, decimal moneyAmount)
         {
+            var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
+
             // тут может вылететь эксепшен, CAREFUL!!!
             long recieverId = FindUserByNumber(DBConnect.GetConnection(), phoneNumber);
 
             decimal senderCash = 0;
-            string senderBankAccId = "";
 
             var database = DBConnect.GetConnection().GetDatabase("bank");
-            var collectionClientAcc = database.GetCollection<BsonDocument>("client_account");
-            var collectionBankAcc = database.GetCollection<BsonDocument>("bank_account");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
 
-            // красиво блять написал... крч ищем в базе челика, который отдает грiвни
-            var filterSenderMoney = new BsonDocument("clientId", sender.client_id64);
-            var cursor = collectionClientAcc.FindSync<BsonDocument>(filterSenderMoney);
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(userBankAccId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
 
             // мб чет неправильно делаю, но работает, так что в пизду..
             while (cursor.MoveNext())
             {
-                var clients = cursor.Current;
+                var accounts = cursor.Current;
 
-                foreach (var user in clients)
+                foreach (var account in accounts)
                 {
-                    
+                    // запомним изначлаьнйы баланс
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne(
+                        new BsonDocument("_id", new ObjectId(userBankAccId)), 
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount)));
                 }
             }
 
@@ -73,7 +79,7 @@ namespace bank_forms.src.BankAccount
                 {
                     foreach (var user in clients)
                     {
-                        recieverId = long.Parse(user.GetValue("Phone").ToString());
+                        recieverId = long.Parse(user.GetValue("_id").ToString());
                     }
                 }
             }

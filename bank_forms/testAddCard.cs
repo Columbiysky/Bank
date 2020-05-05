@@ -135,5 +135,20 @@ namespace bank_forms
                 MessageBox.Show("пиздец...");
             }
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AccountOperations op = new AccountOperations();
+                op.TransferMoneyToUserByNumber(curClient, accId.Last<string>().ToString(), 79019101122, 5000);
+                MessageBox.Show("ЧЕТКО!!!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ПИЗДЕЦ!!!");
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
