@@ -8,43 +8,52 @@ namespace bank_forms.src.BankAccount
 {
     public class AccountOperations : IAccountOperations
     {
-        public void TransferMoneyIDKWhere(IClient sender, decimal mountAmount)
+        public void TransferMoneyIDKWhere(IClient sender, string senderAccId, decimal mountAmount)
         {
             throw new NotImplementedException();
         }
 
-        public void TransferMoneyToUserByNumber(IClient sender, long phoneNumber, decimal moneyAmount)
+        public void TransferMoneyToUserByNumber(IClient sender, string senderAccId, long phoneNumber, decimal moneyAmount)
         {
-            /*
-            var recieverId = FindUserByNumber(DBConnect.GetConnection(), phoneNumber);
+            var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
 
-            var senderCash = 0;
+            // тут может вылететь эксепшен, CAREFUL!!!
+            long recieverId = FindUserByNumber(DBConnect.GetConnection(), phoneNumber);
+
+            decimal senderCash = 0;
 
             var database = DBConnect.GetConnection().GetDatabase("bank");
-            var collection = database.GetCollection<BsonDocument>("client_account");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
 
-            // красиво блять написал... крч ищем в базе челика, который отдает грiвни
-            var filter = new BsonDocument("$and", new BsonArray
-            {
-                new BsonDocument()
-            }
-
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(userBankAccId));
             var cursor = collection.FindSync<BsonDocument>(filter);
 
             // мб чет неправильно делаю, но работает, так что в пизду..
             while (cursor.MoveNext())
             {
-                var clients = cursor.Current;
+                var accounts = cursor.Current;
 
-                foreach (var user in clients)
+                foreach (var account in accounts)
                 {
-                    senderCash = user.GetValue()
+                    // запомним изначлаьнйы баланс
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne(
+                        new BsonDocument("_id", new ObjectId(userBankAccId)), 
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount)));
                 }
             }
-            */
 
         }
 
+        /// <summary>
+        /// Поиск пользователя в БД по номеру телефона
+        /// </summary>
+        /// <param name="client"> Коннекшн к базе </param>
+        /// <param name="phoneNumber"> Номер телефона </param>
+        /// <returns> ID пользователя, если таковой есть </returns>
         private long FindUserByNumber(MongoClient client, long phoneNumber)
         {
             long recieverId = -1;
@@ -63,13 +72,14 @@ namespace bank_forms.src.BankAccount
                 var clients = cursor.Current;
                 if (clients.Count() == 0)
                 {
+                    // хз что сделать, на пхй кину простой эксепшен!
                     throw new Exception("Клиентов с таким номеро телефона нет");
                 }
                 else
                 {
                     foreach (var user in clients)
                     {
-                        recieverId = long.Parse(user.GetValue("Phone").ToString());
+                        recieverId = long.Parse(user.GetValue("_id").ToString());
                     }
                 }
             }
