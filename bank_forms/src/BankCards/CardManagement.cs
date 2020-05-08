@@ -6,7 +6,7 @@ namespace bank_forms.src.BankCards
 {
     public static class CardManagement
     {
-        public static ICard CreateDebitCard(MongoClient client, decimal balance, string validity)
+        public static ICard CreateDebitCard(MongoClient client, string validity, decimal balance = 0)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("card");
@@ -30,16 +30,16 @@ namespace bank_forms.src.BankCards
 
             collection.InsertOne(debitCard);
 
-            return new DebitCard(objId, balance, validity, cardNumber, cvvCode);
+            return new DebitCard(objId,validity, cardNumber, cvvCode, balance);
         }
 
         public static ICard CreateCreditCard
         (
             MongoClient client, 
-            decimal balance,
             string validity, 
             double percent = 0, 
-            int maxLimit = 0
+            int maxLimit = 0,
+            decimal balance = 0
         )
         {
             var database = client.GetDatabase("bank");
@@ -64,7 +64,7 @@ namespace bank_forms.src.BankCards
 
             collection.InsertOne(creditCard);
 
-            return new CreditCard(objId, balance, validity, cardNumber, cvvCode, percent, maxLimit);
+            return new CreditCard(objId, validity, cardNumber, cvvCode, balance, percent, maxLimit);
         }
 
         private static long GenerateCardNumber()

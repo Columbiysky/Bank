@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace bank_forms.src.BankAccount
 {
-    public class AccountOperations : IAccountOperations
+    public class AccountOperations
     {
         public void TransferMoneyIDKWhere(IClient sender, string senderAccId, decimal mountAmount)
         {
@@ -47,6 +47,7 @@ namespace bank_forms.src.BankAccount
                     );
                 }
             }
+
 
         }
 

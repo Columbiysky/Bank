@@ -29,7 +29,7 @@ namespace bank_forms.src.BankCards
         [BsonElement("CVV")]
         public string CVV { get; set; }
 
-        public DebitCard(ObjectId cardId, decimal balance, string validity, long cardNumber, string cvvCode)
+        public DebitCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, decimal balance = 0)
         {
             CardID = cardId;
             Balance = balance;

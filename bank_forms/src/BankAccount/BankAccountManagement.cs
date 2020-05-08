@@ -23,7 +23,7 @@ namespace bank_forms.src.BankAccount
         /// <param name="finishDate"> До какого числа акк активен </param>
         /// <param name="isActive"> Активен акк или нет </param>
         /// <returns> Экземпляр класса ClientAccount </returns>
-        public static ClientAccount CreateNewUserBankAccount(MongoClient client, IClient user, string accountType, int balance, string startDate, string finishDate, bool isActive)
+        public static ClientAccount CreateUserBankAccount(MongoClient client, IClient user, string accountType, int balance, string startDate, string finishDate, bool isActive)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("client_account");
@@ -120,6 +120,8 @@ namespace bank_forms.src.BankAccount
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
 
+            decimal balance = 0;
+
             var debitCard = CardManagement.CreateDebitCard(client, validity);
 
             var recordId = ObjectId.GenerateNewId();
@@ -147,6 +149,8 @@ namespace bank_forms.src.BankAccount
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
+
+            decimal balance = 0;
 
             var creditCard = CardManagement.CreateCreditCard(client, validity, percent, maxLimit);
 

@@ -55,7 +55,7 @@ namespace bank_forms
         {
             try
             {
-                var acc = BankAccountManagement.CreateNewUserBankAccount(DBConnect.GetConnection(), curClient, "тест тестович", 228000000, "04.05.2020", "04.05.2035", true);
+                var acc = BankAccountManagement.CreateUserBankAccount(DBConnect.GetConnection(), curClient, "тест тестович", 228000000, "04.05.2020", "04.05.2035", true);
                 MessageBox.Show("Успешно");
             }
             catch (Exception exc)
