@@ -8,6 +8,9 @@ namespace bank_forms.src.BankCards
         [BsonId]
         public ObjectId CardID { get; set; }
 
+        [BsonElement("Balance")]
+        public decimal Balance { get; set; }
+
         [BsonElement("Validity")]
         public string Validity { get; set; }
 
@@ -26,9 +29,10 @@ namespace bank_forms.src.BankCards
         [BsonElement("CVV")]
         public string CVV { get; set; }
 
-        public DebitCard(ObjectId cardId, string validity, long cardNumber, string cvvCode)
+        public DebitCard(ObjectId cardId, decimal balance, string validity, long cardNumber, string cvvCode)
         {
             CardID = cardId;
+            Balance = balance;
             Validity = validity;
             Percent = 0;
             MaximumLimit = 0;
