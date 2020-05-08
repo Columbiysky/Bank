@@ -37,12 +37,14 @@ namespace bank_forms.src.BankAccount
 
                 foreach (var account in accounts)
                 {
-                    // запомним изначлаьнйы баланс
+                    // запомним изначальный баланс
                     senderCash = decimal.Parse(account.GetValue("balance").ToString());
                     // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
-                    collection.UpdateOne(
+                    collection.UpdateOne
+                    (
                         new BsonDocument("_id", new ObjectId(userBankAccId)), 
-                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount)));
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount))
+                    );
                 }
             }
 
