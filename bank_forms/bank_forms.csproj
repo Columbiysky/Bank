@@ -103,7 +103,6 @@
     <Compile Include="src\BankAccount\AccountOperations.cs" />
     <Compile Include="src\BankAccount\BankAccounts.cs" />
     <Compile Include="src\BankAccount\BankAccountManagement.cs" />
-    <Compile Include="src\BankAccount\IAccountOperations.cs" />
     <Compile Include="src\BankCards\CardManagement.cs" />
     <Compile Include="src\BankCards\CreditCard.cs" />
     <Compile Include="src\BankCards\DebitCard.cs" />

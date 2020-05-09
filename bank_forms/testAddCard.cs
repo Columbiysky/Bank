@@ -55,7 +55,7 @@ namespace bank_forms
         {
             try
             {
-                var acc = BankAccountManagement.CreateNewUserBankAccount(DBConnect.GetConnection(), curClient, "тест тестович", 228000000, "04.05.2020", "04.05.2035", true);
+                var acc = BankAccountManagement.CreateUserBankAccount(DBConnect.GetConnection(), curClient, "тест тестович", 228000000, "04.05.2020", "04.05.2035", true);
                 MessageBox.Show("Успешно");
             }
             catch (Exception exc)
@@ -148,6 +148,23 @@ namespace bank_forms
             {
                 MessageBox.Show("ПИЗДЕЦ!!!");
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var cardsId = BankAccountManagement.GetUserBankAccCards(accId.First<string>().ToString());
+                foreach (var card in cardsId)
+                {
+                    MessageBox.Show(card.ToString());
+                }
+                MessageBox.Show("ЧЕТКО!!!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ПИЗДЕЦ!!!");
             }
         }
     }
