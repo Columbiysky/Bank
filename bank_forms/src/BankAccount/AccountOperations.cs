@@ -51,6 +51,8 @@ namespace bank_forms.src.BankAccount
 
         }
 
+        //public static void TransferMoneyFromCardToUser()
+
         /// <summary>
         /// Поиск пользователя в БД по номеру телефона
         /// </summary>

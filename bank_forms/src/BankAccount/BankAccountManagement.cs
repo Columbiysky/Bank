@@ -115,7 +115,8 @@ namespace bank_forms.src.BankAccount
         /// <param name="user"> Клиент </param>
         /// <param name="clientBankAccId"> ID клиентского аккаунта, к которому доавляем карту </param>
         /// <param name="validity"> Валидность карты (до какого числа) </param>
-        public static void CreateDebitCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity)
+        /// <returns>  </returns>
+        public static ObjectId CreateDebitCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
@@ -134,6 +135,8 @@ namespace bank_forms.src.BankAccount
             };
 
             collection.InsertOne(clientDebitCard);
+
+            return ObjectId.Parse(clientBankAccId);
         }
 
         /// <summary>
@@ -145,7 +148,7 @@ namespace bank_forms.src.BankAccount
         /// <param name="validity"> Валидность карты (до какого числа) </param>
         /// <param name="percent"> Процент по карте </param>
         /// <param name="maxLimit"> Максимальнйы лимит карты </param>
-        public static void CreateCreditCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity, double percent = 0, int maxLimit = 0)
+        public static ObjectId CreateCreditCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity, double percent = 0, int maxLimit = 0)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
@@ -164,10 +167,12 @@ namespace bank_forms.src.BankAccount
             };
 
             collection.InsertOne(clientCreditCard);
+
+            return ObjectId.Parse(clientBankAccId);
         }
 
         /// <summary>
-        /// Получить список id всех банковских аккаунтов пользователя
+        /// Получить список id всех банковских счетов пользователя
         /// </summary>
         /// <param name="user"> IClient - нужный нам пользователь </param>
         /// <returns> Список id </returns>
@@ -230,6 +235,43 @@ namespace bank_forms.src.BankAccount
             }
 
             return bankAccId;
+        }
+
+
+        /// <summary>
+        /// Возвращает список банковских карт, привязанных к данному счету
+        /// </summary>
+        /// <param name="userAccountId"> id счета </param>
+        /// <returns> Список карт </returns>
+        public static List<string> GetUserBankAccCards(string userAccountId)
+        {
+            List<string> cardsId = new List<string>();
+
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("users_cards");
+
+            var filter = new BsonDocument("clientBankAccountID", ObjectId.Parse(userAccountId));
+            var cursor = collection.FindSync(filter);
+
+            while (cursor.MoveNext())
+            {
+                var records = cursor.Current;
+
+                if (records.Count() == 0)
+                {
+                    throw new Exception("У данного клиента нет карт");
+                }
+                else
+                {
+                    foreach (var record in records)
+                    {
+                        cardsId.Add(record.GetValue("cardId").ToString());
+                    }
+                }
+            }
+
+            return cardsId;
         }
     }
 }
