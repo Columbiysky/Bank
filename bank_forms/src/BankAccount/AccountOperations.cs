@@ -51,6 +51,48 @@ namespace bank_forms.src.BankAccount
 
         }
 
+
+        public void TransferMoneyToUserByCardNumber(IClient sender, string senderAccId, long cardNumber, decimal moneyAmount)
+        {
+            var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
+
+            ObjectId recieverAccId;
+
+            // тут может вылететь сразу НЕСКОЛЬКО эксепшенов, CAREFUL!!!
+            long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), cardNumber, out recieverAccId);
+
+            decimal senderCash = 0;
+
+            var database = DBConnect.GetConnection().GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(userBankAccId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            // СНИМАЕМ БАБКИ СО СЧЕТА ОТПРАВИТЕЛЯ
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(userBankAccId)),
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount))
+                    );
+                }
+            }
+
+
+        }
+
         //public static void TransferMoneyFromCardToUser()
 
         /// <summary>
@@ -68,8 +110,6 @@ namespace bank_forms.src.BankAccount
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("clients");
 
-            var recordId = ObjectId.GenerateNewId();
-
             // ищем челика в таблице Clients
             var cursor = collection.FindSync(filter);
             while (cursor.MoveNext())
@@ -78,13 +118,104 @@ namespace bank_forms.src.BankAccount
                 if (clients.Count() == 0)
                 {
                     // хз что сделать, на пхй кину простой эксепшен!
-                    throw new Exception("Клиентов с таким номеро телефона нет");
+                    throw new Exception("Клиентов с таким номером телефона нет");
                 }
                 else
                 {
                     foreach (var user in clients)
                     {
                         recieverId = long.Parse(user.GetValue("_id").ToString());
+                    }
+                }
+            }
+
+            return recieverId;
+        }
+
+        /// <summary>
+        /// Вернуть ID клиента - владельца карты
+        /// </summary>
+        /// <param name="client"> Коннекшн </param>
+        /// <param name="cardNumber"> Номер карты </param>
+        /// <returns> id клиента банка </returns>
+        private int FindUserByCardNumber(MongoClient client, long cardNumber, out ObjectId bankAccountId)
+        {
+            ObjectId cardId = new ObjectId();
+            bankAccountId = new ObjectId();
+
+            var filter = new BsonDocument("CardNumber", cardNumber);
+
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("cards");
+
+            // ищем карту в таблице Cards
+            var cursor = collection.FindSync(filter);
+            while (cursor.MoveNext())
+            {
+                var cards = cursor.Current;
+
+                if (cards.Count() == 0)
+                {
+                    // хз что сделать, на пхй кину простой эксепшен!
+                    throw new Exception("Клиентов с данным номером карты не существует");
+                }
+                else
+                {
+                    foreach (var card in cards)
+                    {
+                        cardId = ObjectId.Parse(card.GetValue("_id").ToString());
+                    }
+                }
+            }
+
+            // ищем счет, к которому привязана карта
+            collection = database.GetCollection<BsonDocument>("users_cards");
+            filter = new BsonDocument("cardId", cardId);
+
+            ObjectId clientBankAccId = new ObjectId();
+
+            cursor = collection.FindSync(filter);
+            while (cursor.MoveNext())
+            {
+                var usersCards = cursor.Current;
+
+                if (usersCards.Count() == 0)
+                {
+                    // хз что сделать, на пхй кину простой эксепшен!
+                    throw new Exception("Я эксепшен, поймай меня!...");
+                }
+                else
+                {
+                    foreach (var userCard in usersCards)
+                    {
+                        clientBankAccId = ObjectId.Parse(userCard.GetValue("clientBankAccID").ToString());
+                    }
+                }
+            }
+
+            // ну и НАКОНЕЦ-ТО ищем владельца карты
+            // и заодно запомним _id банковского счета, к котороу карточка привязана (тупо по приколу)
+            collection = database.GetCollection<BsonDocument>("client_account");
+            filter = new BsonDocument("bankAccId", clientBankAccId);
+
+            int recieverId = -1;
+
+            cursor = collection.FindSync(filter);
+            while (cursor.MoveNext())
+            {
+                var users = cursor.Current;
+
+                if (users.Count() == 0)
+                {
+                    // хз что сделать, на пхй кину простой эксепшен!
+                    throw new Exception("Я эксепшен, поймай меня!...");
+                }
+                else
+                {
+                    foreach (var user in users)
+                    {
+                        recieverId = int.Parse(user.GetValue("clientId").ToString());
+                        bankAccountId = ObjectId.Parse(user.GetValue("bankAccId").ToString());
                     }
                 }
             }
