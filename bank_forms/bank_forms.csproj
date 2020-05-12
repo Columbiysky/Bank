@@ -100,6 +100,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SendMoneyByCardNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendMoneyByCardNumber.Designer.cs">
+      <DependentUpon>SendMoneyByCardNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\BankAccount\AccountOperations.cs" />
     <Compile Include="src\BankAccount\BankAccounts.cs" />
     <Compile Include="src\BankAccount\BankAccountManagement.cs" />
@@ -151,9 +157,13 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendMoneyByCardNumber.resx">
+      <DependentUpon>SendMoneyByCardNumber.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="testAddCard.resx">
       <DependentUpon>testAddCard.cs</DependentUpon>
@@ -371,6 +381,7 @@
     <Content Include="packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\runtimes\win\lib\netcore50\System.Runtime.InteropServices.RuntimeInformation.dll" />
     <Content Include="packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\runtimes\win\lib\netstandard1.1\System.Runtime.InteropServices.RuntimeInformation.dll" />
     <Content Include="packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\ThirdPartyNotices.txt" />
+    <Content Include="Resources\bank_ico.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
