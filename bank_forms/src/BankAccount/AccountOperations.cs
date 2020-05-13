@@ -56,12 +56,15 @@ namespace bank_forms.src.BankAccount
         {
             var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
 
-            ObjectId recieverAccId;
+            // id банковского счета, куда КЭЕЭЕЭЕШ будем переводить
+            ObjectId recieverBankAccId;
 
             // тут может вылететь сразу НЕСКОЛЬКО эксепшенов, CAREFUL!!!
-            long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), cardNumber, out recieverAccId);
+            // запишем в блокнотик id получателя и id его банковского акк, куда привязана карта
+            long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), cardNumber, out recieverBankAccId);
 
             decimal senderCash = 0;
+            decimal recieverCash = 0;
 
             var database = DBConnect.GetConnection().GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("bank_account");
@@ -90,7 +93,26 @@ namespace bank_forms.src.BankAccount
                 }
             }
 
+            filter = new BsonDocument("_id", new ObjectId(recieverId.ToString()));
+            cursor = collection.FindSync<BsonDocument>(filter);
 
+            // ЗАЧИСЛЯЕМ БАБКИ ПОЛУЧАТЕЛЮ
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    recieverCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", recieverBankAccId),
+                        new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                    );
+                }
+            }
         }
 
         //public static void TransferMoneyFromCardToUser()

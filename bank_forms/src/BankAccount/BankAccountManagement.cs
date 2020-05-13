@@ -273,5 +273,40 @@ namespace bank_forms.src.BankAccount
 
             return cardsId;
         }
+
+        public static Dictionary<string, string> GetBankAccInfo(string bankAccId)
+        {
+            Dictionary<string, string> accInfo = new Dictionary<string, string>();
+
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
+
+            var filter = new BsonDocument("_id", ObjectId.Parse(bankAccId));
+            var cursor = collection.FindSync(filter);
+
+            while (cursor.MoveNext())
+            {
+                var records = cursor.Current;
+
+                if (records.Count() == 0)
+                {
+                    throw new Exception("Данного банковского аккаунта не существует, кек))))");
+                }
+                else
+                {
+                    foreach (var record in records)
+                    {
+                        accInfo.Add("accountType", record.GetValue("accountType").ToString());
+                        accInfo.Add("balance", record.GetValue("balance").ToString());
+                        accInfo.Add("startDate", record.GetValue("startDate").ToString());
+                        accInfo.Add("finishDate", record.GetValue("finishDate").ToString());
+                        accInfo.Add("isActive", record.GetValue("isActive").ToString());
+                    }
+                }
+            }
+
+            return accInfo;
+        }
     }
 }

@@ -16,29 +16,37 @@ using KladrApiClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.WireProtocol.Messages;
+using bank_forms.src.BankAccount;
 
 namespace bank_forms
 {
     public partial class Main : Form
     {
+        int lvSelectedIndex;
+
         private MongoClient client;
         string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";
         //string DaDataSecret = "815788af76613100cd9df99ac7d86d96e0c18564";
         Dictionary<int, string> ID_addresses_dict;
+
         private IMongoDatabase db;
-        private IClient app_client, old_client;
+        private IClient app_client, old_client, curUser;
+
         private bool EditMode = false;
         private long _id { get; }
         private string old_address { get; set; }
 
         private bool SelectedFromListBox = false;
 
-        public Main(MongoClient client_, long id)
+        public Main(MongoClient client_, IClient user, long id)
         {
             _id = id;
             StartPosition = FormStartPosition.CenterScreen;
             client = client_;
             db = client.GetDatabase("bank");
+
+            this.curUser = user;
+
             //var address_coll= db.GetCollection<BsonDocument>("address");
             var address_client_coll = db.GetCollection<BsonDocument>("client_address");
             app_client= new Client();
@@ -319,6 +327,45 @@ namespace bank_forms
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 AddAddress_btn.PerformClick();
             }
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            var accsId = BankAccountManagement.GetUserBankAccounts(curUser);
+
+            foreach (string id in accsId)
+            {
+                ListViewItem lvi = new ListViewItem();
+
+                var info = BankAccountManagement.GetBankAccInfo(BankAccountManagement.GetUserBankAccId(id));
+
+                var isActive = (info["isActive"] == "true") ? "Активен" : "Заморожен";
+
+                // установка названия файла
+                lvi.Name = id;
+                lvi.Text = "Счет под номером: " + id + ". " + "     Баланс: " + info["balance"] + ".     Дата создания: " + info["startDate"] + $".     {isActive}";
+                lvi.ImageIndex = 0; // установка картинки для файла
+                // добавляем элемент в ListView
+                listV_accounts.Items.Add(lvi);
+                listV_accounts.Items.Add("");
+            }
+            
+        }
+
+        private void listV_accounts_ItemActivate(object sender, EventArgs e)
+        {
+            // пишет id банковского счета
+            MessageBox.Show(listV_accounts.Items[lvSelectedIndex].Name);
+        }
+
+        private void listV_accounts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lvSelectedIndex = listV_accounts.FocusedItem.Index;
+        }
+
+        private void ButtonOnClick(object sender, EventArgs eventArgs)
+        {
+
         }
 
         private void SaveChanges()

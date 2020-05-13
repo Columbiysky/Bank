@@ -61,7 +61,8 @@ namespace bank_forms
                     new Thread(() => Application.Run(new testAddCard(app_client))).Start(); // потестить кое-ч
                     // !!!!!!!!!!!! УДАЛИТЬ ПОТОМ !!!!!!!!!!!
 
-                    new Thread(() => Application.Run(new Main(client, app_client.client_id64))).Start();  //Делаем главной вторую
+
+                    new Thread(() => Application.Run(new Main(client, app_client, app_client.client_id64))).Start();  //Делаем главной вторую
                 }
 
             }
