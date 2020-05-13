@@ -17,12 +17,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.WireProtocol.Messages;
 using bank_forms.src.BankAccount;
+using bank_forms.src.FormsDialog;
 
 namespace bank_forms
 {
     public partial class Main : Form
     {
         int lvSelectedIndex;
+
+        Dictionary<string, string> accInfo;
 
         private MongoClient client;
         string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";
@@ -47,7 +50,6 @@ namespace bank_forms
 
             this.curUser = user;
 
-            //var address_coll= db.GetCollection<BsonDocument>("address");
             var address_client_coll = db.GetCollection<BsonDocument>("client_address");
             app_client= new Client();
 
@@ -55,9 +57,9 @@ namespace bank_forms
             numericUpDown_clientAddresses.Maximum = 0;
             FillInfo(_id);
             FillAddress(_id/*, address_client_coll*/);
+
             foreach (ListBox Listbox in groupBox1.Controls.OfType<ListBox>())
                 Listbox.Visible = false;
-
         }
 
         private void btn_Edit_Click(object sender, EventArgs e)
@@ -230,7 +232,7 @@ namespace bank_forms
                 else if (i == txtBx_Address.Text.Length - 2 && txtBx_Address.Text[i] != 'д' )
                 {
                     MessageBox.Show("Адрес не заполнен до конца! " +
-                                    "Пожалуйста выберете адрес из списка ниже!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    "Пожалуйста выберите адрес из списка ниже!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -329,43 +331,67 @@ namespace bank_forms
             }
         }
 
-        private void Main_Load(object sender, EventArgs e)
+        public void UpdateData()
         {
-            var accsId = BankAccountManagement.GetUserBankAccounts(curUser);
-
-            foreach (string id in accsId)
+            try
             {
-                ListViewItem lvi = new ListViewItem();
+                var accsId = BankAccountManagement.GetUserBankAccounts(curUser);
 
-                var info = BankAccountManagement.GetBankAccInfo(BankAccountManagement.GetUserBankAccId(id));
+                foreach (string id in accsId)
+                {
+                    ListViewItem lvi = new ListViewItem();
 
-                var isActive = (info["isActive"] == "true") ? "Активен" : "Заморожен";
+                    accInfo = BankAccountManagement.GetBankAccInfo(BankAccountManagement.GetUserBankAccId(id));
 
-                // установка названия файла
-                lvi.Name = id;
-                lvi.Text = "Счет под номером: " + id + ". " + "     Баланс: " + info["balance"] + ".     Дата создания: " + info["startDate"] + $".     {isActive}";
-                lvi.ImageIndex = 0; // установка картинки для файла
-                // добавляем элемент в ListView
-                listV_accounts.Items.Add(lvi);
-                listV_accounts.Items.Add("");
+                    var isActive = (accInfo["isActive"] == "true") ? "Активен" : "Заморожен";
+
+                    // установка названия файла
+                    lvi.Name = id;
+                    lvi.Text = "Счет под номером: " + id + ". " + "     Баланс: " + accInfo["balance"] + ".     Дата создания: " + accInfo["startDate"] + $".     {isActive}";
+                    lvi.ImageIndex = 0; // установка картинки для файла
+                                        // добавляем элемент в ListView
+                    listV_accounts.Items.Add(lvi);
+                    listV_accounts.Items.Add("");
+                }
+            }
+            catch (Exception exc)
+            {
+                lbl_noAccounts.Visible = true;
             }
             
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            UpdateData();
         }
 
         private void listV_accounts_ItemActivate(object sender, EventArgs e)
         {
             // пишет id банковского счета
             MessageBox.Show(listV_accounts.Items[lvSelectedIndex].Name);
+
+            BankAccount bankAccForm = new BankAccount(curUser, accInfo, listV_accounts.Items[lvSelectedIndex].Name);
+            bankAccForm.Text = $"Счет под номером: {listV_accounts.Items[lvSelectedIndex].Name}";
+            bankAccForm.ShowDialog();
+        }
+
+        private void btn_createNewUserAcc_Click(object sender, EventArgs e)
+        {
+            CreateUserAccount userAccForm = new CreateUserAccount(curUser);
+            userAccForm.Activate();
+            userAccForm.ShowDialog();
+        }
+
+        private void Main_Activated_1(object sender, EventArgs e)
+        {
+            listV_accounts.Clear();
+            UpdateData();
         }
 
         private void listV_accounts_SelectedIndexChanged(object sender, EventArgs e)
         {
             lvSelectedIndex = listV_accounts.FocusedItem.Index;
-        }
-
-        private void ButtonOnClick(object sender, EventArgs eventArgs)
-        {
-
         }
 
         private void SaveChanges()

@@ -274,6 +274,11 @@ namespace bank_forms.src.BankAccount
             return cardsId;
         }
 
+        /// <summary>
+        /// Получить словарь с информацией по аккаунту
+        /// </summary>
+        /// <param name="bankAccId"> id счета </param>
+        /// <returns> Словарь:)) </returns>
         public static Dictionary<string, string> GetBankAccInfo(string bankAccId)
         {
             Dictionary<string, string> accInfo = new Dictionary<string, string>();
@@ -297,6 +302,7 @@ namespace bank_forms.src.BankAccount
                 {
                     foreach (var record in records)
                     {
+                        accInfo.Add("id", record.GetValue("_id").ToString());
                         accInfo.Add("accountType", record.GetValue("accountType").ToString());
                         accInfo.Add("balance", record.GetValue("balance").ToString());
                         accInfo.Add("startDate", record.GetValue("startDate").ToString());
@@ -308,5 +314,7 @@ namespace bank_forms.src.BankAccount
 
             return accInfo;
         }
+
+        //public void TransferMoneyToCard(IClient client, )
     }
 }
