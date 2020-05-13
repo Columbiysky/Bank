@@ -90,7 +90,7 @@
             this.lv_clientCards.HideSelection = false;
             this.lv_clientCards.Location = new System.Drawing.Point(3, 29);
             this.lv_clientCards.Name = "lv_clientCards";
-            this.lv_clientCards.Size = new System.Drawing.Size(368, 511);
+            this.lv_clientCards.Size = new System.Drawing.Size(353, 511);
             this.lv_clientCards.TabIndex = 4;
             this.lv_clientCards.UseCompatibleStateImageBehavior = false;
             this.lv_clientCards.View = System.Windows.Forms.View.List;
