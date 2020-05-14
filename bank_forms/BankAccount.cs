@@ -17,6 +17,7 @@ namespace bank_forms
         string userAccId;
         int lvSelectedIndex;
         double cash;
+        double cardCash;
 
         public BankAccount(IClient client, Dictionary<string, string> accInfo, string userAccId)
         {
@@ -58,6 +59,8 @@ namespace bank_forms
                     lvi.Text = card + $"   Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]}";
                     // добавляем элемент в ListView
                     lv_clientCards.Items.Add(lvi);
+
+                    cardCash = Convert.ToDouble(cardInfo["balance"]);
                 }
             }
             else
@@ -130,8 +133,22 @@ namespace bank_forms
 
         private void btn_transferMoneyToCard_Click(object sender, EventArgs e)
         {
-            var cardId = lv_clientCards.Items[lv_clientCards.SelectedIndices[0]].Name;
-            MessageBox.Show($"ДОДЕЛАЙ МЕНЯ!!!    {cardId}");
+            try
+            {
+                var cardId = lv_clientCards.Items[lv_clientCards.SelectedIndices[0]].Name;
+
+                BankAccountManagement.TransferMoneyToCard(cardId, tb_moneyAmount.Text);
+
+                cardCash += Convert.ToDouble(tb_moneyAmount.Text);
+                cardInfo = BankAccountManagement.GetCardInfo(cardId);
+
+                this.BeginInvoke((MethodInvoker)(() => UpdateForm()));
+                MessageBox.Show("Средства зачислены");
+            }
+            catch
+            {
+                MessageBox.Show("Выберите карту из списка");
+            }
         }
 
         private void btn_addMoney_Click(object sender, EventArgs e)

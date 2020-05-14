@@ -202,6 +202,7 @@
             this.tb_moneyAmount.Name = "tb_moneyAmount";
             this.tb_moneyAmount.Size = new System.Drawing.Size(196, 22);
             this.tb_moneyAmount.TabIndex = 8;
+            this.tb_moneyAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
             // 

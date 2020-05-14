@@ -393,5 +393,45 @@ namespace bank_forms.src.BankAccount
                 }
             }
         }
+
+        /// <summary>
+        /// Перевести деньги со счета на карту (со счета деньги не уходят, а просто на карте становится НЕ 0!!!)
+        /// </summary>
+        /// <param name="cardId"> id банковской карты </param>
+        /// <param name="moneyAmount"> Сумма баблишка </param>
+        public static void TransferMoneyToCard(string cardId, string moneyAmount)
+        {
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("card");
+
+            var filter = new BsonDocument("_id", ObjectId.Parse(cardId));
+            var cursor = collection.FindSync(filter);
+
+            decimal cashBefore;
+
+            while (cursor.MoveNext())
+            {
+                var records = cursor.Current;
+
+                if (records.Count() == 0)
+                {
+                    throw new Exception("Такой карточки нет, упс))))");
+                }
+                else
+                {
+                    foreach (var record in records)
+                    {
+                        cashBefore = decimal.Parse(record.GetValue("Balance").ToString());
+
+                        collection.UpdateOne
+                        (
+                            new BsonDocument("_id", new ObjectId(cardId)),
+                            new BsonDocument("$set", new BsonDocument("Balance", cashBefore + Convert.ToDecimal(moneyAmount)))
+                        );
+                    }
+                }
+            }
+        }
     }
 }
