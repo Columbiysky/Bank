@@ -34,8 +34,8 @@
             this.tb_confirmINN = new System.Windows.Forms.TextBox();
             this.tb_cofirmPass = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lbl_warning = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -98,15 +98,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Подтвердите Ваш ИНН и пароль";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 17);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "ИНН:";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -115,6 +106,15 @@
             this.label3.Size = new System.Drawing.Size(61, 17);
             this.label3.TabIndex = 7;
             this.label3.Text = "Пароль:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(29, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 17);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "ИНН:";
             // 
             // linkLabel1
             // 
@@ -154,6 +154,7 @@
             this.MaximumSize = new System.Drawing.Size(556, 411);
             this.MinimumSize = new System.Drawing.Size(556, 411);
             this.Name = "CreateUserAccount";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CreateUserAccount";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

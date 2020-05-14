@@ -345,7 +345,7 @@
             this.Name = "Main";
             this.Text = "Main";
             this.Activated += new System.EventHandler(this.Main_Activated_1);
-            this.Load += new System.EventHandler(this.Main_Load);
+            //this.Load += new System.EventHandler(this.Main_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_clientAddresses)).EndInit();
