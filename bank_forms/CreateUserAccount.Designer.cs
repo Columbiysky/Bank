@@ -84,6 +84,7 @@
             this.tb_cofirmPass.Name = "tb_cofirmPass";
             this.tb_cofirmPass.Size = new System.Drawing.Size(257, 22);
             this.tb_cofirmPass.TabIndex = 4;
+            this.tb_cofirmPass.UseSystemPasswordChar = true;
             // 
             // groupBox1
             // 

@@ -40,7 +40,7 @@
             // 
             this.Btn_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Btn_login.Location = new System.Drawing.Point(93, 224);
-            this.Btn_login.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_login.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_login.Name = "Btn_login";
             this.Btn_login.Size = new System.Drawing.Size(133, 32);
             this.Btn_login.TabIndex = 0;
@@ -74,7 +74,7 @@
             // 
             this.txtBx_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtBx_login.Location = new System.Drawing.Point(93, 50);
-            this.txtBx_login.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBx_login.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_login.Name = "txtBx_login";
             this.txtBx_login.Size = new System.Drawing.Size(132, 26);
             this.txtBx_login.TabIndex = 3;
@@ -84,11 +84,12 @@
             // 
             this.txtBx_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtBx_password.Location = new System.Drawing.Point(93, 150);
-            this.txtBx_password.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBx_password.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_password.Name = "txtBx_password";
             this.txtBx_password.Size = new System.Drawing.Size(132, 26);
             this.txtBx_password.TabIndex = 4;
             this.txtBx_password.Text = "sght";
+            this.txtBx_password.UseSystemPasswordChar = true;
             // 
             // linkLbl_Register
             // 
@@ -114,7 +115,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Btn_login);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Login";
             this.Text = "Login";
             this.ResumeLayout(false);

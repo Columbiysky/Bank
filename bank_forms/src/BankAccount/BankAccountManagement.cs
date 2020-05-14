@@ -121,8 +121,6 @@ namespace bank_forms.src.BankAccount
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
 
-            decimal balance = 0;
-
             var debitCard = CardManagement.CreateDebitCard(client, validity);
 
             var recordId = ObjectId.GenerateNewId();
@@ -152,8 +150,6 @@ namespace bank_forms.src.BankAccount
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
-
-            decimal balance = 0;
 
             var creditCard = CardManagement.CreateCreditCard(client, validity, percent, maxLimit);
 
@@ -315,6 +311,87 @@ namespace bank_forms.src.BankAccount
             return accInfo;
         }
 
-        //public void TransferMoneyToCard(IClient client, )
+        /// <summary>
+        /// Получить полную информацию по карте
+        /// </summary>
+        /// <param name="cardId"> id банковской карты </param>
+        /// <returns> Dictionary с информацией по карте </returns>
+        public static Dictionary<string, string> GetCardInfo(string cardId)
+        {
+            Dictionary<string, string> cardInfo = new Dictionary<string, string>();
+
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("card");
+
+            var filter = new BsonDocument("_id", ObjectId.Parse(cardId));
+            var cursor = collection.FindSync(filter);
+
+            while (cursor.MoveNext())
+            {
+                var records = cursor.Current;
+
+                if (records.Count() == 0)
+                {
+                    throw new Exception("Такой карты нет, кек))))");
+                }
+                else
+                {
+                    foreach (var record in records)
+                    {
+                        cardInfo.Add("id", record.GetValue("_id").ToString());
+                        cardInfo.Add("balance", record.GetValue("Balance").ToString());
+                        cardInfo.Add("validity", record.GetValue("Validity").ToString());
+                        cardInfo.Add("percent", record.GetValue("Percent").ToString());
+                        cardInfo.Add("maxLinit", record.GetValue("MaximumLimit").ToString());
+                        cardInfo.Add("cardType", record.GetValue("CardType").ToString());
+                        cardInfo.Add("cardNumber", record.GetValue("CardNumber").ToString());
+                        cardInfo.Add("cvv", record.GetValue("CVV").ToString());
+                    }
+                }
+            }
+
+            return cardInfo;
+        }
+
+        /// <summary>
+        /// Пополнить счет на заданную сумму
+        /// </summary>
+        /// <param name="accountId"> id банковского аккаунта </param>
+        /// <param name="moneyAmount"> количество баблишка </param>
+        public static void AddMoneyToAccount(string accountId, string moneyAmount)
+        {
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
+
+            var filter = new BsonDocument("_id", ObjectId.Parse(accountId));
+            var cursor = collection.FindSync(filter);
+
+            decimal cashBefore;
+
+            while (cursor.MoveNext())
+            {
+                var records = cursor.Current;
+
+                if (records.Count() == 0)
+                {
+                    throw new Exception("Такого банковского аккаунта нет, упс))))");
+                }
+                else
+                {
+                    foreach (var record in records)
+                    {
+                        cashBefore = decimal.Parse(record.GetValue("balance").ToString());
+                        // обновим таблицу в бд, добавив к балансу сумму, которую клиент зачисляет на карту
+                        collection.UpdateOne
+                        (
+                            new BsonDocument("_id", new ObjectId(accountId)),
+                            new BsonDocument("$set", new BsonDocument("balance", cashBefore + Convert.ToDecimal(moneyAmount)))
+                        );
+                    }
+                }
+            }
+        }
     }
 }

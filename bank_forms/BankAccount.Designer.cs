@@ -44,6 +44,8 @@
             this.btn_transferMoneyToCard = new System.Windows.Forms.Button();
             this.tb_moneyAmount = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btn_addMoney = new System.Windows.Forms.Button();
+            this.tb_addMoney = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,7 +77,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(713, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(437, 615);
+            this.panel1.Size = new System.Drawing.Size(470, 615);
             this.panel1.TabIndex = 3;
             // 
             // lv_clientCards
@@ -84,8 +86,10 @@
             this.lv_clientCards.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lv_clientCards.HideSelection = false;
             this.lv_clientCards.Location = new System.Drawing.Point(3, 29);
+            this.lv_clientCards.MaximumSize = new System.Drawing.Size(462, 581);
+            this.lv_clientCards.MinimumSize = new System.Drawing.Size(462, 581);
             this.lv_clientCards.Name = "lv_clientCards";
-            this.lv_clientCards.Size = new System.Drawing.Size(429, 581);
+            this.lv_clientCards.Size = new System.Drawing.Size(462, 581);
             this.lv_clientCards.TabIndex = 4;
             this.lv_clientCards.UseCompatibleStateImageBehavior = false;
             this.lv_clientCards.View = System.Windows.Forms.View.SmallIcon;
@@ -208,11 +212,35 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Сумма перевода:";
             // 
+            // btn_addMoney
+            // 
+            this.btn_addMoney.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_addMoney.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_addMoney.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_addMoney.Location = new System.Drawing.Point(5, 322);
+            this.btn_addMoney.Name = "btn_addMoney";
+            this.btn_addMoney.Size = new System.Drawing.Size(189, 41);
+            this.btn_addMoney.TabIndex = 10;
+            this.btn_addMoney.Text = "Пополнить баланс";
+            this.btn_addMoney.UseVisualStyleBackColor = true;
+            this.btn_addMoney.Click += new System.EventHandler(this.btn_addMoney_Click);
+            // 
+            // tb_addMoney
+            // 
+            this.tb_addMoney.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tb_addMoney.Location = new System.Drawing.Point(211, 329);
+            this.tb_addMoney.Name = "tb_addMoney";
+            this.tb_addMoney.Size = new System.Drawing.Size(163, 27);
+            this.tb_addMoney.TabIndex = 11;
+            this.tb_addMoney.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // BankAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1154, 628);
+            this.ClientSize = new System.Drawing.Size(1185, 628);
+            this.Controls.Add(this.tb_addMoney);
+            this.Controls.Add(this.btn_addMoney);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tb_moneyAmount);
             this.Controls.Add(this.btn_transferMoneyToCard);
@@ -256,5 +284,7 @@
         private System.Windows.Forms.Button btn_transferMoneyToCard;
         private System.Windows.Forms.TextBox tb_moneyAmount;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_addMoney;
+        private System.Windows.Forms.TextBox tb_addMoney;
     }
 }

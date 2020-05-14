@@ -26,6 +26,7 @@ namespace bank_forms
         int lvSelectedIndex;
 
         Dictionary<string, string> accInfo;
+        Dictionary<string, string> cardInfo;
 
         private MongoClient client;
         string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";

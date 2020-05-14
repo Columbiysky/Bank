@@ -30,9 +30,9 @@ namespace bank_forms.src.BankCards
         public string CVV { get; set; }
 
         [BsonElement("isMain")]
-        public bool isMain { get; set; }
+        public bool IsMain { get; set; }
 
-        public CreditCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, decimal balance = 0, double percent = 0, int maxLimit = 0)
+        public CreditCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, decimal balance = 0, double percent = 0, int maxLimit = 0, bool isMain = false)
         {
             CardID = cardId;
             Balance = balance;
@@ -42,6 +42,7 @@ namespace bank_forms.src.BankCards
             Percent = percent;
             MaximumLimit = maxLimit;
             CardType = "Кредитная карта";
+            IsMain = isMain;
         }
     }
 }
