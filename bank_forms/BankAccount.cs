@@ -55,7 +55,7 @@ namespace bank_forms
                     // установка названия файла
                     cardInfo = BankAccountManagement.GetCardInfo(card);
                     lvi.Name = card;
-                    lvi.Text = card + $"    Баланс: {accInfo["balance"]};    {cardInfo["cardType"]}";
+                    lvi.Text = card + $"   Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]}";
                     // добавляем элемент в ListView
                     lv_clientCards.Items.Add(lvi);
                 }
@@ -102,7 +102,7 @@ namespace bank_forms
                     // установка названия файла
                     cardInfo = BankAccountManagement.GetCardInfo(card);
                     lvi.Name = card;
-                    lvi.Text = card + $"    Баланс: {accInfo["balance"]};    {cardInfo["cardType"]}";
+                    lvi.Text = card + $"   Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]}";
                     // добавляем элемент в ListView
                     lv_clientCards.Items.Add(lvi);
                 }
@@ -136,7 +136,7 @@ namespace bank_forms
 
         private void btn_addMoney_Click(object sender, EventArgs e)
         {
-            if (Convert.ToDouble(tb_addMoney.Text) > 80000)
+            if (Convert.ToDouble(tb_addMoney.Text) > 80000 || tb_addMoney.Text == "")
             {
                 MessageBox.Show("Максимальная сумма пополнения 80 000р");
                 return;
@@ -145,7 +145,7 @@ namespace bank_forms
             lbl_accBalance.Text = "Баланс:";
             cash += Convert.ToDouble(tb_addMoney.Text);
             lbl_accBalance.Text += "  " + cash;
-            MessageBox.Show(accInfo["id"]);
+            MessageBox.Show("Средства зачислены");
         }
     }
 }
