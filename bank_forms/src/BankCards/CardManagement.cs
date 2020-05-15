@@ -25,12 +25,13 @@ namespace bank_forms.src.BankCards
                 { "MaximumLimit",  0 },
                 { "CardType", "Дебетовая карта" },
                 { "CardNumber", cardNumber },
-                { "CVV", cvvCode }
+                { "CVV", cvvCode },
+                { "isMain", false}
             };
 
             collection.InsertOne(debitCard);
 
-            return new DebitCard(objId,validity, cardNumber, cvvCode, balance);
+            return new DebitCard(objId,validity, cardNumber, cvvCode, false, balance);
         }
 
         public static ICard CreateCreditCard
@@ -59,7 +60,8 @@ namespace bank_forms.src.BankCards
                 { "MaximumLimit",  maxLimit },
                 { "CardType", "Кредитная карта" },
                 { "CardNumber", cardNumber },
-                { "CVV", cvvCode }
+                { "CVV", cvvCode },
+                { "isMain", false}
             };
 
             collection.InsertOne(creditCard);

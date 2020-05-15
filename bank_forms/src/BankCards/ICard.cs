@@ -21,6 +21,6 @@ namespace bank_forms.src.BankCards
 
         string CVV { get; set; }
 
-        bool isMain { get; set; }
+        bool IsMain { get; set; }
     }
 }

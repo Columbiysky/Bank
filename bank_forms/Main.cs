@@ -26,6 +26,7 @@ namespace bank_forms
         int lvSelectedIndex;
 
         Dictionary<string, string> accInfo;
+        Dictionary<string, string> cardInfo;
 
         private MongoClient client;
         string DaDataToken = "481cdec20e319b938eb5fbff21fed0bee64a4706";
@@ -361,16 +362,15 @@ namespace bank_forms
             
         }
 
-        private void Main_Load(object sender, EventArgs e)
-        {
-            UpdateData();
-        }
+        //private void Main_Load(object sender, EventArgs e)
+        //{
+        //    listV_accounts.Clear();
+        //    this.BeginInvoke((MethodInvoker)(() => UpdateData()));
+        //    //UpdateData();
+        //}
 
         private void listV_accounts_ItemActivate(object sender, EventArgs e)
         {
-            // пишет id банковского счета
-            MessageBox.Show(listV_accounts.Items[lvSelectedIndex].Name);
-
             BankAccount bankAccForm = new BankAccount(curUser, accInfo, listV_accounts.Items[lvSelectedIndex].Name);
             bankAccForm.Text = $"Счет под номером: {listV_accounts.Items[lvSelectedIndex].Name}";
             bankAccForm.ShowDialog();
@@ -386,7 +386,8 @@ namespace bank_forms
         private void Main_Activated_1(object sender, EventArgs e)
         {
             listV_accounts.Clear();
-            UpdateData();
+            this.BeginInvoke((MethodInvoker)(() => UpdateData()));
+            //UpdateData();
         }
 
         private void listV_accounts_SelectedIndexChanged(object sender, EventArgs e)

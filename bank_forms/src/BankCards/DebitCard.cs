@@ -30,9 +30,9 @@ namespace bank_forms.src.BankCards
         public string CVV { get; set; }
 
         [BsonElement("isMain")]
-        public bool isMain { get; set; }
+        public bool IsMain { get; set; }
 
-        public DebitCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, decimal balance = 0)
+        public DebitCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, bool isMain = false, decimal balance = 0)
         {
             CardID = cardId;
             Balance = balance;
@@ -42,6 +42,7 @@ namespace bank_forms.src.BankCards
             CardType = "Дебетовая карта";
             CardNumber = cardNumber;
             CVV = cvvCode;
+            IsMain = isMain;
         }
     }
 }
