@@ -134,7 +134,7 @@ namespace bank_forms
         {
             var cardId = lv_clientCards.Items[lv_clientCards.SelectedIndices[0]].Name;
 
-            CardOperations cardOperationsForm = new CardOperations(cardId);
+            CardOperations cardOperationsForm = new CardOperations(client, cardId);
             cardOperationsForm.Text = $"Карта номер {lv_clientCards.Items[lvSelectedIndex].Name}";
             MessageBox.Show(lv_clientCards.Items[lvSelectedIndex].Name);
             cardOperationsForm.ShowDialog();
@@ -163,7 +163,7 @@ namespace bank_forms
                     return;
                 }
 
-                BankAccountManagement.TransferMoneyToCard(cardId, tb_moneyAmount.Text);
+                BankAccountManagement.TransferMoneyToCard(cardId, accInfo["id"], tb_moneyAmount.Text);
 
                 cardCash += Convert.ToDouble(tb_moneyAmount.Text);
                 cardInfo = BankAccountManagement.GetCardInfo(cardId);
@@ -187,9 +187,9 @@ namespace bank_forms
             }
 
             BankAccountManagement.AddMoneyToAccount(accInfo["id"], tb_addMoney.Text);
-            lbl_accBalance.Text = "Баланс:";
-            cash += Convert.ToDouble(tb_addMoney.Text);
-            lbl_accBalance.Text += "  " + cash;
+            //lbl_accBalance.Text = "Баланс:";
+            //cash += Convert.ToDouble(tb_addMoney.Text);
+            //lbl_accBalance.Text += "  " + cash;
             MessageBox.Show("Средства зачислены");
         }
 
@@ -237,6 +237,9 @@ namespace bank_forms
             if (Char.IsDigit(e.KeyChar)) return;
             else
                 e.Handled = true;
+
+            if (e.KeyChar == (char)Keys.Back)
+                e.Handled = false;
         }
 
         private bool CheckCardAndAccBalance(string card, decimal transferSum)
@@ -249,9 +252,7 @@ namespace bank_forms
 
             bool isAllowed = true;
 
-            cardBalance += transferSum;
-
-            if (cardBalance > accountBalance)
+            if (transferSum > accountBalance)
             {
                 isAllowed = false;
             }
@@ -267,9 +268,13 @@ namespace bank_forms
 
         private void tb_addMoney_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar)) return;
+            if (Char.IsDigit(e.KeyChar))
+                return;
             else
                 e.Handled = true;
-        }
+
+            if (e.KeyChar == (char)Keys.Back)
+                e.Handled = false;
+        } 
     }
 }

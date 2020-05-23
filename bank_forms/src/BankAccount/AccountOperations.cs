@@ -51,17 +51,13 @@ namespace bank_forms.src.BankAccount
 
         }
 
-
         public void TransferMoneyToUserByCardNumber(IClient sender, string senderAccId, long recieverCardNumber, decimal moneyAmount)
         {
             var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
 
-            // id банковского счета, куда КЭЕЭЕЭЕШ будем переводить
-            ObjectId recieverBankAccId;
-
             // тут может вылететь сразу НЕСКОЛЬКО эксепшенов, CAREFUL!!!
             // запишем в блокнотик id получателя и id его банковского акк, куда привязана карта
-            long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), recieverCardNumber, out recieverBankAccId);
+            // long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), recieverCardNumber, out recieverBankAccId);
 
             decimal senderCash = 0;
             decimal recieverCash = 0;
@@ -71,7 +67,7 @@ namespace bank_forms.src.BankAccount
 
             // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
             // но на один счет приходится лишь один банковский аккаунт)
-            var filter = new BsonDocument("_id", new ObjectId(userBankAccId));
+            var filter = new BsonDocument("_id", new ObjectId(senderAccId));
             var cursor = collection.FindSync<BsonDocument>(filter);
 
             // СНИМАЕМ БАБКИ СО СЧЕТА ОТПРАВИТЕЛЯ
@@ -84,16 +80,23 @@ namespace bank_forms.src.BankAccount
                 {
                     // запомним изначальный баланс
                     senderCash = decimal.Parse(account.GetValue("balance").ToString());
+
+                    if (senderCash < moneyAmount)
+                    {
+                        throw new Exception("Недостаток средств на счету");
+                    }
+
                     // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
-                        new BsonDocument("_id", new ObjectId(userBankAccId)),
+                        new BsonDocument("_id", new ObjectId(senderAccId)),
                         new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount))
                     );
                 }
             }
 
-            filter = new BsonDocument("_id", new ObjectId(recieverId.ToString()));
+            collection = database.GetCollection<BsonDocument>("card");
+            filter = new BsonDocument("CardNumber", recieverCardNumber);
             cursor = collection.FindSync<BsonDocument>(filter);
 
             // ЗАЧИСЛЯЕМ БАБКИ ПОЛУЧАТЕЛЮ
@@ -104,12 +107,12 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    recieverCash = decimal.Parse(account.GetValue("balance").ToString());
+                    recieverCash = decimal.Parse(account.GetValue("Balance").ToString());
                     // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
                     collection.UpdateOne
                     (
-                        new BsonDocument("_id", recieverBankAccId),
-                        new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                        new BsonDocument("CardNumber", recieverCardNumber),
+                        new BsonDocument("$set", new BsonDocument("Balance", recieverCash + moneyAmount))
                     );
                 }
             }
@@ -143,6 +146,12 @@ namespace bank_forms.src.BankAccount
                 {
                     // запомним изначальный баланс
                     senderCash = decimal.Parse(account.GetValue("balance").ToString());
+
+                    if (senderCash < moneyAmount)
+                    {
+                        throw new Exception("Недостаток средств на счету");
+                    }
+
                     // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
@@ -169,6 +178,128 @@ namespace bank_forms.src.BankAccount
                     (
                         new BsonDocument("_id", recieverBankAccId),
                         new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                    );
+                }
+            }
+        }
+
+        public void TransferMoneyFromCardToAccId(IClient sender, string senderCardId, string recieverAccId, decimal moneyAmount)
+        {
+            decimal senderCash = 0;
+            decimal recieverCash = 0;
+
+            var database = DBConnect.GetConnection().GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("card");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(senderCardId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            // СНИМАЕМ БАБКИ СО СЧЕТА ОТПРАВИТЕЛЯ
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var cards = cursor.Current;
+
+                foreach (var card in cards)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(card.GetValue("Balance").ToString());
+
+                    if (senderCash < moneyAmount)
+                    {
+                        throw new Exception("Недостаток средств на счету");
+                    }
+
+                    // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(senderCardId)),
+                        new BsonDocument("$set", new BsonDocument("Balance", senderCash - moneyAmount))
+                    );
+                }
+            }
+
+            collection = database.GetCollection<BsonDocument>("bank_account");
+            filter = new BsonDocument("_id", new ObjectId(recieverAccId));
+            cursor = collection.FindSync<BsonDocument>(filter);
+
+            // ЗАЧИСЛЯЕМ БАБКИ ПОЛУЧАТЕЛЮ
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    recieverCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(recieverAccId)),
+                        new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                    );
+                }
+            }
+        }
+
+        public void TransferMoneyFromCardToCard(IClient sender, string senderCardId, long recieverCardId, decimal moneyAmount)
+        {
+            decimal senderCash = 0;
+            decimal recieverCash = 0;
+
+            var database = DBConnect.GetConnection().GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("card");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(senderCardId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            // СНИМАЕМ БАБКИ СО СЧЕТА ОТПРАВИТЕЛЯ
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var cards = cursor.Current;
+
+                foreach (var card in cards)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(card.GetValue("Balance").ToString());
+
+                    if (senderCash < moneyAmount)
+                    {
+                        throw new Exception("Недостаток средств на счету");
+                    }
+
+                    // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(senderCardId)),
+                        new BsonDocument("$set", new BsonDocument("Balance", senderCash - moneyAmount))
+                    );
+                }
+            }
+
+            collection = database.GetCollection<BsonDocument>("card");
+            filter = new BsonDocument("CardNumber", recieverCardId);
+            cursor = collection.FindSync<BsonDocument>(filter);
+
+            // ЗАЧИСЛЯЕМ БАБКИ ПОЛУЧАТЕЛЮ
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    recieverCash = decimal.Parse(account.GetValue("Balance").ToString());
+                    // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("CardNumber", recieverCardId),
+                        new BsonDocument("$set", new BsonDocument("Balance", recieverCash + moneyAmount))
                     );
                 }
             }

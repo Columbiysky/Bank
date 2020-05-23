@@ -19,16 +19,16 @@ namespace bank_forms
             this.accId = accId;
         }
 
-        private void btn_transferToUser_Click(object sender, EventArgs e)
+        private void btn_transferToUser1_Click_1(object sender, EventArgs e)
         {
             AccountOperations op = new AccountOperations();
 
-            decimal moneyAmount = Convert.ToDecimal(tb_moneyAmount.Text);
-            string cardNumber = tb_recCardNumber.Text;
+            decimal moneyAmount = Convert.ToDecimal(tb_moneyAmount1.Text);
+            string accountId = tb_recAccountId.Text;
 
             try
             {
-                op.TransferMoneyToUserByAccId(client, accId, cardNumber, moneyAmount);
+                op.TransferMoneyToUserByAccId(client, accId, accountId, moneyAmount);
                 MessageBox.Show("Средства успешно переведены");
             }
             catch (Exception exc)
@@ -37,11 +37,55 @@ namespace bank_forms
             }
         }
 
-        private void tb_moneyAmount_KeyPress(object sender, KeyPressEventArgs e)
+        private void btn_transferToUser2_Click(object sender, EventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar)) return;
+            AccountOperations op = new AccountOperations();
+
+            string cardNumber = tb_recCardNumber.Text;
+            decimal moneyAmount = Convert.ToDecimal(tb_moneyAmount2.Text);
+
+            try
+            {
+                op.TransferMoneyToUserByCardNumber(client, accId, long.Parse(cardNumber), moneyAmount);
+                MessageBox.Show("Средства успешно переведены");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Пользователя с данной картой нет в базе");
+            }
+        }
+
+        private void tb_moneyAmount1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar))
+                return;
             else
                 e.Handled = true;
+
+            if (e.KeyChar == (char)Keys.Back)
+                e.Handled = false;
+        }
+
+        private void tb_moneyAmount2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+
+            if (e.KeyChar == (char)Keys.Back)
+                e.Handled = false;
+        }
+
+        private void tb_recCardNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsDigit(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+
+            if (e.KeyChar == (char)Keys.Back)
+                e.Handled = false;
         }
     }
 }

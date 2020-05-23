@@ -74,7 +74,7 @@ namespace bank_forms
                 app_client.client_id64 = collection.CountDocuments(new BsonDocument()) + 1; //id будет long number ну ты понял
                 //кол-во документов в коллекции + 1
 
-                app_client.INN = app_client.client_id64; //а хули нет, у нас в единственной записи также)))
+                app_client.INN = long.Parse(tb_INN.Text); //а хули нет, у нас в единственной записи также)))
 
                 return app_client;
             }
