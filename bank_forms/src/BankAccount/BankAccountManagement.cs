@@ -146,12 +146,12 @@ namespace bank_forms.src.BankAccount
         /// <param name="validity"> Валидность карты (до какого числа) </param>
         /// <param name="percent"> Процент по карте </param>
         /// <param name="maxLimit"> Максимальнйы лимит карты </param>
-        public static ObjectId CreateCreditCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity, double percent = 0, int maxLimit = 0)
+        public static ObjectId CreateCreditCardForClient(MongoClient client, IClient user, decimal balance, string clientBankAccId, string validity, double percent = 0, int maxLimit = 0)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
 
-            var creditCard = CardManagement.CreateCreditCard(client, validity, percent, maxLimit);
+            var creditCard = CardManagement.CreateCreditCard(client, balance, validity, percent, maxLimit);
 
             var recordId = ObjectId.GenerateNewId();
 

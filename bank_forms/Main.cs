@@ -24,6 +24,7 @@ namespace bank_forms
     public partial class Main : Form
     {
         int lvSelectedIndex;
+        string bankAccId;
 
         Dictionary<string, string> accInfo;
         Dictionary<string, string> cardInfo;
@@ -55,7 +56,7 @@ namespace bank_forms
             app_client= new Client();
 
             InitializeComponent();
-            numericUpDown_clientAddresses.Maximum = 0;
+            //numericUpDown_clientAddresses.Maximum = 0;
             FillInfo(_id);
             FillAddress(_id/*, address_client_coll*/);
 
@@ -69,14 +70,14 @@ namespace bank_forms
             {
                 foreach (TextBox item in groupBox1.Controls.OfType<TextBox>())
                 {
-                    if(item!= txtBx_INN)
+                    if(item != txtBx_INN)
                         item.Enabled = true;
                 }
 
                 foreach (Button item in groupBox1.Controls.OfType<Button>())
                     item.Enabled = true;
 
-                numericUpDown_clientAddresses.Enabled = true;
+                //numericUpDown_clientAddresses.Enabled = true;
 
                 EditMode = true;
 
@@ -96,7 +97,7 @@ namespace bank_forms
                     item.Enabled = false;
 
                 foreach (Button item in groupBox1.Controls.OfType<Button>())
-                    if(item != btn_Edit)
+                    if (item != btn_Edit  && item != btn_createNewUserAcc)
                         item.Enabled = false;
                 
                 EditMode = false;
@@ -105,7 +106,6 @@ namespace bank_forms
                 SaveChanges();
                 FillAddress(_id);
             }
-
         }
 
         private void txtBx_Address_TextChanged(object sender, EventArgs e)
@@ -163,7 +163,7 @@ namespace bank_forms
 
                 else
                 {
-                    numericUpDown_clientAddresses.Maximum = ID_addresses.Count();
+                    //numericUpDown_clientAddresses.Maximum = ID_addresses.Count();
 
                     ID_addresses_dict = new Dictionary<int, string>();
 
@@ -174,18 +174,9 @@ namespace bank_forms
                     }
 
 
-                    numericUpDown_clientAddresses.Minimum = 1;
+                    //numericUpDown_clientAddresses.Minimum = 1;
                 }
             }
-        }
-
-        private void numericUpDown_clientAddresses_ValueChanged(object sender, EventArgs e)
-        {
-            string value = "";
-            if (ID_addresses_dict.TryGetValue((int) numericUpDown_clientAddresses.Value, out value))
-                txtBx_Address.Text = value;
-
-            old_address = txtBx_Address.Text;
         }
 
         private void FillInfo(long id)
@@ -217,7 +208,7 @@ namespace bank_forms
 
         private void AddAddress_btn_Click(object sender, EventArgs e)
         {
-            var id_address = numericUpDown_clientAddresses.Maximum;
+            //var id_address = numericUpDown_clientAddresses.Maximum;
             var client_address_collection = db.GetCollection<BsonDocument>("client_address");
             string address = "";
 
@@ -371,7 +362,9 @@ namespace bank_forms
 
         private void listV_accounts_ItemActivate(object sender, EventArgs e)
         {
-            BankAccount bankAccForm = new BankAccount(curUser, accInfo, listV_accounts.Items[lvSelectedIndex].Name);
+            bankAccId = BankAccountManagement.GetUserBankAccId(listV_accounts.Items[lvSelectedIndex].Name);
+
+            BankAccount bankAccForm = new BankAccount(curUser, accInfo, listV_accounts.Items[lvSelectedIndex].Name, bankAccId);
             bankAccForm.Text = $"Счет под номером: {listV_accounts.Items[lvSelectedIndex].Name}";
             bankAccForm.ShowDialog();
         }

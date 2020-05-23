@@ -36,7 +36,6 @@
             this.AddAddress_btn = new System.Windows.Forms.Button();
             this.txtBx_INN = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDown_clientAddresses = new System.Windows.Forms.NumericUpDown();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.btn_Edit = new System.Windows.Forms.Button();
             this.txtBx_Address = new System.Windows.Forms.TextBox();
@@ -52,7 +51,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listV_accounts = new System.Windows.Forms.ListView();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_clientAddresses)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +65,6 @@
             this.groupBox1.Controls.Add(this.AddAddress_btn);
             this.groupBox1.Controls.Add(this.txtBx_INN);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.numericUpDown_clientAddresses);
             this.groupBox1.Controls.Add(this.listBox1);
             this.groupBox1.Controls.Add(this.btn_Edit);
             this.groupBox1.Controls.Add(this.txtBx_Address);
@@ -116,7 +113,7 @@
             // UpdateAddress_btn
             // 
             this.UpdateAddress_btn.Enabled = false;
-            this.UpdateAddress_btn.Location = new System.Drawing.Point(696, 324);
+            this.UpdateAddress_btn.Location = new System.Drawing.Point(695, 257);
             this.UpdateAddress_btn.Margin = new System.Windows.Forms.Padding(4);
             this.UpdateAddress_btn.Name = "UpdateAddress_btn";
             this.UpdateAddress_btn.Size = new System.Drawing.Size(92, 37);
@@ -129,7 +126,7 @@
             // 
             this.RemoveAddress_btn.Enabled = false;
             this.RemoveAddress_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.RemoveAddress_btn.Location = new System.Drawing.Point(744, 271);
+            this.RemoveAddress_btn.Location = new System.Drawing.Point(743, 204);
             this.RemoveAddress_btn.Margin = new System.Windows.Forms.Padding(4);
             this.RemoveAddress_btn.Name = "RemoveAddress_btn";
             this.RemoveAddress_btn.Size = new System.Drawing.Size(44, 46);
@@ -142,7 +139,7 @@
             // 
             this.AddAddress_btn.Enabled = false;
             this.AddAddress_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddAddress_btn.Location = new System.Drawing.Point(696, 271);
+            this.AddAddress_btn.Location = new System.Drawing.Point(695, 204);
             this.AddAddress_btn.Margin = new System.Windows.Forms.Padding(4);
             this.AddAddress_btn.Name = "AddAddress_btn";
             this.AddAddress_btn.Size = new System.Drawing.Size(40, 46);
@@ -154,7 +151,7 @@
             // txtBx_INN
             // 
             this.txtBx_INN.Enabled = false;
-            this.txtBx_INN.Location = new System.Drawing.Point(124, 202);
+            this.txtBx_INN.Location = new System.Drawing.Point(123, 135);
             this.txtBx_INN.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_INN.Name = "txtBx_INN";
             this.txtBx_INN.Size = new System.Drawing.Size(335, 26);
@@ -163,27 +160,18 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 203);
+            this.label7.Location = new System.Drawing.Point(7, 136);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(46, 20);
             this.label7.TabIndex = 15;
             this.label7.Text = "ИНН";
             // 
-            // numericUpDown_clientAddresses
-            // 
-            this.numericUpDown_clientAddresses.Location = new System.Drawing.Point(12, 27);
-            this.numericUpDown_clientAddresses.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDown_clientAddresses.Name = "numericUpDown_clientAddresses";
-            this.numericUpDown_clientAddresses.Size = new System.Drawing.Size(160, 26);
-            this.numericUpDown_clientAddresses.TabIndex = 14;
-            this.numericUpDown_clientAddresses.ValueChanged += new System.EventHandler(this.numericUpDown_clientAddresses_ValueChanged);
-            // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 20;
-            this.listBox1.Location = new System.Drawing.Point(16, 368);
+            this.listBox1.Location = new System.Drawing.Point(15, 301);
             this.listBox1.Margin = new System.Windows.Forms.Padding(4);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(771, 84);
@@ -193,7 +181,7 @@
             // 
             // btn_Edit
             // 
-            this.btn_Edit.Location = new System.Drawing.Point(525, 102);
+            this.btn_Edit.Location = new System.Drawing.Point(524, 35);
             this.btn_Edit.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Edit.Name = "btn_Edit";
             this.btn_Edit.Size = new System.Drawing.Size(263, 52);
@@ -205,7 +193,7 @@
             // txtBx_Address
             // 
             this.txtBx_Address.Enabled = false;
-            this.txtBx_Address.Location = new System.Drawing.Point(124, 271);
+            this.txtBx_Address.Location = new System.Drawing.Point(123, 204);
             this.txtBx_Address.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Address.Multiline = true;
             this.txtBx_Address.Name = "txtBx_Address";
@@ -216,7 +204,7 @@
             // txtBx_Phone
             // 
             this.txtBx_Phone.Enabled = false;
-            this.txtBx_Phone.Location = new System.Drawing.Point(124, 236);
+            this.txtBx_Phone.Location = new System.Drawing.Point(123, 169);
             this.txtBx_Phone.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Phone.Name = "txtBx_Phone";
             this.txtBx_Phone.Size = new System.Drawing.Size(335, 26);
@@ -225,7 +213,7 @@
             // txtBx_Second_Name
             // 
             this.txtBx_Second_Name.Enabled = false;
-            this.txtBx_Second_Name.Location = new System.Drawing.Point(124, 167);
+            this.txtBx_Second_Name.Location = new System.Drawing.Point(123, 100);
             this.txtBx_Second_Name.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Second_Name.Name = "txtBx_Second_Name";
             this.txtBx_Second_Name.Size = new System.Drawing.Size(335, 26);
@@ -234,7 +222,7 @@
             // txtBx_Name
             // 
             this.txtBx_Name.Enabled = false;
-            this.txtBx_Name.Location = new System.Drawing.Point(124, 133);
+            this.txtBx_Name.Location = new System.Drawing.Point(123, 66);
             this.txtBx_Name.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Name.Name = "txtBx_Name";
             this.txtBx_Name.Size = new System.Drawing.Size(335, 26);
@@ -243,7 +231,7 @@
             // txtBx_Surname
             // 
             this.txtBx_Surname.Enabled = false;
-            this.txtBx_Surname.Location = new System.Drawing.Point(124, 98);
+            this.txtBx_Surname.Location = new System.Drawing.Point(123, 31);
             this.txtBx_Surname.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Surname.Name = "txtBx_Surname";
             this.txtBx_Surname.Size = new System.Drawing.Size(335, 26);
@@ -252,7 +240,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 272);
+            this.label6.Location = new System.Drawing.Point(11, 205);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 20);
@@ -262,7 +250,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 238);
+            this.label5.Location = new System.Drawing.Point(7, 171);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 20);
@@ -272,7 +260,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 169);
+            this.label4.Location = new System.Drawing.Point(7, 102);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 20);
@@ -282,7 +270,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 134);
+            this.label3.Location = new System.Drawing.Point(7, 67);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 20);
@@ -292,7 +280,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 102);
+            this.label2.Location = new System.Drawing.Point(7, 35);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 20);
@@ -345,10 +333,8 @@
             this.Name = "Main";
             this.Text = "Main";
             this.Activated += new System.EventHandler(this.Main_Activated_1);
-            //this.Load += new System.EventHandler(this.Main_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_clientAddresses)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -370,7 +356,6 @@
         private System.Windows.Forms.Button btn_Edit;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox txtBx_Address;
-        private System.Windows.Forms.NumericUpDown numericUpDown_clientAddresses;
         private System.Windows.Forms.TextBox txtBx_INN;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button RemoveAddress_btn;

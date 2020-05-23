@@ -32,7 +32,7 @@ namespace bank_forms.src.BankCards
         [BsonElement("isMain")]
         public bool IsMain { get; set; }
 
-        public CreditCard(ObjectId cardId, string validity, long cardNumber, string cvvCode, decimal balance = 0, double percent = 0, int maxLimit = 0, bool isMain = false)
+        public CreditCard(ObjectId cardId, decimal balance, string validity, long cardNumber, string cvvCode, double percent = 0, int maxLimit = 0, bool isMain = false)
         {
             CardID = cardId;
             Balance = balance;

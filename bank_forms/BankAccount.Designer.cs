@@ -69,6 +69,7 @@
             this.btn_getCreditCard.TabIndex = 1;
             this.btn_getCreditCard.Text = "Оформить кредит";
             this.btn_getCreditCard.UseVisualStyleBackColor = true;
+            this.btn_getCreditCard.Click += new System.EventHandler(this.btn_getCreditCard_Click);
             // 
             // panel1
             // 
@@ -115,6 +116,7 @@
             this.btn_transferMoney.TabIndex = 4;
             this.btn_transferMoney.Text = "Совершить \r\nперевод";
             this.btn_transferMoney.UseVisualStyleBackColor = true;
+            this.btn_transferMoney.Click += new System.EventHandler(this.btn_transferMoney_Click);
             // 
             // lbl_accType
             // 
@@ -203,6 +205,7 @@
             this.tb_moneyAmount.Size = new System.Drawing.Size(196, 22);
             this.tb_moneyAmount.TabIndex = 8;
             this.tb_moneyAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_moneyAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_moneyAmount_KeyPress);
             // 
             // label2
             // 
@@ -234,6 +237,7 @@
             this.tb_addMoney.Size = new System.Drawing.Size(163, 27);
             this.tb_addMoney.TabIndex = 11;
             this.tb_addMoney.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_addMoney.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_addMoney_KeyPress);
             // 
             // BankAccount
             // 
@@ -256,9 +260,12 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_getCreditCard);
             this.Controls.Add(this.btn_addDebitCard);
+            this.MaximumSize = new System.Drawing.Size(1203, 675);
+            this.MinimumSize = new System.Drawing.Size(1203, 675);
             this.Name = "BankAccount";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BankAccount";
+            this.Activated += new System.EventHandler(this.BankAccount_Activated);
             this.Load += new System.EventHandler(this.BankAccount_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

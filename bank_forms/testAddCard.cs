@@ -40,15 +40,15 @@ namespace bank_forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var creditCard = CardManagement.CreateCreditCard(DBConnect.GetConnection(), "10.06.2025", 10, 50000);
-                MessageBox.Show("Успешно");
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show("Ошибка");
-            }
+            //try
+            //{
+            //    var creditCard = CardManagement.CreateCreditCard(DBConnect.GetConnection(), "10.06.2025", 10, 50000);
+            //    MessageBox.Show("Успешно");
+            //}
+            //catch (Exception exc)
+            //{
+            //    MessageBox.Show("Ошибка");
+            //}
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -112,15 +112,15 @@ namespace bank_forms
 
         private void button5_Click(object sender, EventArgs e)
         {
-            try
-            {
-                BankAccountManagement.CreateCreditCardForClient(DBConnect.GetConnection(), curClient, accId.Last<string>().ToString(), "12.12.2030", 5.5, 10000000);
-                MessageBox.Show("Успешно");
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show("Ошибка");
-            }
+            //try
+            //{
+            //    BankAccountManagement.CreateCreditCardForClient(DBConnect.GetConnection(), curClient, accId.Last<string>().ToString(), "12.12.2030", 5.5, 10000000);
+            //    MessageBox.Show("Успешно");
+            //}
+            //catch (Exception exc)
+            //{
+            //    MessageBox.Show("Ошибка");
+            //}
         }
 
         private void button6_Click(object sender, EventArgs e)
