@@ -40,8 +40,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_recCardNumber = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btn_transferSomewhere = new System.Windows.Forms.Button();
+            this.tb_moneyAmount3 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tb_transferDestination = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -64,7 +71,7 @@
             this.btn_transferToUser1.Name = "btn_transferToUser1";
             this.btn_transferToUser1.Size = new System.Drawing.Size(299, 50);
             this.btn_transferToUser1.TabIndex = 4;
-            this.btn_transferToUser1.Text = "Перевести деньги пользователю";
+            this.btn_transferToUser1.Text = "Перевести средства";
             this.btn_transferToUser1.UseVisualStyleBackColor = true;
             this.btn_transferToUser1.Click += new System.EventHandler(this.btn_transferToUser1_Click);
             // 
@@ -75,6 +82,7 @@
             this.tb_moneyAmount1.Size = new System.Drawing.Size(193, 22);
             this.tb_moneyAmount1.TabIndex = 1;
             this.tb_moneyAmount1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_moneyAmount1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_moneyAmount1_KeyPress);
             // 
             // label2
             // 
@@ -124,7 +132,7 @@
             this.btn_transferToUser2.Name = "btn_transferToUser2";
             this.btn_transferToUser2.Size = new System.Drawing.Size(299, 50);
             this.btn_transferToUser2.TabIndex = 4;
-            this.btn_transferToUser2.Text = "Перевести деньги пользователю";
+            this.btn_transferToUser2.Text = "Перевести средства";
             this.btn_transferToUser2.UseVisualStyleBackColor = true;
             this.btn_transferToUser2.Click += new System.EventHandler(this.btn_transferToUser2_Click);
             // 
@@ -135,6 +143,7 @@
             this.tb_moneyAmount2.Size = new System.Drawing.Size(193, 22);
             this.tb_moneyAmount2.TabIndex = 1;
             this.tb_moneyAmount2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_moneyAmount2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_moneyAmount2_KeyPress);
             // 
             // label3
             // 
@@ -164,22 +173,86 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Номер карты получателя:";
             // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.btn_transferSomewhere);
+            this.panel3.Controls.Add(this.tb_moneyAmount3);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.tb_transferDestination);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Location = new System.Drawing.Point(604, 2);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(299, 434);
+            this.panel3.TabIndex = 7;
+            // 
+            // btn_transferSomewhere
+            // 
+            this.btn_transferSomewhere.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_transferSomewhere.Location = new System.Drawing.Point(-1, 383);
+            this.btn_transferSomewhere.Name = "btn_transferSomewhere";
+            this.btn_transferSomewhere.Size = new System.Drawing.Size(299, 50);
+            this.btn_transferSomewhere.TabIndex = 4;
+            this.btn_transferSomewhere.Text = "Перевести средства";
+            this.btn_transferSomewhere.UseVisualStyleBackColor = true;
+            this.btn_transferSomewhere.Click += new System.EventHandler(this.btn_transferSomewhere_Click);
+            // 
+            // tb_moneyAmount3
+            // 
+            this.tb_moneyAmount3.Location = new System.Drawing.Point(3, 109);
+            this.tb_moneyAmount3.Name = "tb_moneyAmount3";
+            this.tb_moneyAmount3.Size = new System.Drawing.Size(193, 22);
+            this.tb_moneyAmount3.TabIndex = 1;
+            this.tb_moneyAmount3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_moneyAmount3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_moneyAmount3_KeyPress);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(10, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(154, 22);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Сумма перевода:";
+            // 
+            // tb_transferDestination
+            // 
+            this.tb_transferDestination.Location = new System.Drawing.Point(3, 32);
+            this.tb_transferDestination.Name = "tb_transferDestination";
+            this.tb_transferDestination.Size = new System.Drawing.Size(291, 22);
+            this.tb_transferDestination.TabIndex = 0;
+            this.tb_transferDestination.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(10, 7);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(197, 22);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Назначение перевода:";
+            // 
             // CardOperations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 442);
+            this.ClientSize = new System.Drawing.Size(905, 442);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.MaximumSize = new System.Drawing.Size(623, 489);
-            this.MinimumSize = new System.Drawing.Size(623, 489);
+            this.MaximumSize = new System.Drawing.Size(923, 489);
+            this.MinimumSize = new System.Drawing.Size(923, 489);
             this.Name = "CardOperations";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CardOperations";
+            this.Text = "Операции с картой";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -197,5 +270,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_recCardNumber;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btn_transferSomewhere;
+        private System.Windows.Forms.TextBox tb_moneyAmount3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tb_transferDestination;
+        private System.Windows.Forms.Label label6;
     }
 }

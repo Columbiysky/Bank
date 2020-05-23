@@ -39,12 +39,12 @@
             // Btn_login
             // 
             this.Btn_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Btn_login.Location = new System.Drawing.Point(93, 224);
+            this.Btn_login.Location = new System.Drawing.Point(65, 224);
             this.Btn_login.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_login.Name = "Btn_login";
-            this.Btn_login.Size = new System.Drawing.Size(133, 32);
+            this.Btn_login.Size = new System.Drawing.Size(181, 32);
             this.Btn_login.TabIndex = 0;
-            this.Btn_login.Text = "Login";
+            this.Btn_login.Text = "Авторизоваться";
             this.Btn_login.UseVisualStyleBackColor = true;
             this.Btn_login.Click += new System.EventHandler(this.Btn_login_Click);
             // 
@@ -55,9 +55,9 @@
             this.label1.Location = new System.Drawing.Point(131, 23);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 20);
+            this.label1.Size = new System.Drawing.Size(59, 20);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Login";
+            this.label1.Text = "Логин";
             // 
             // label2
             // 
@@ -66,9 +66,9 @@
             this.label2.Location = new System.Drawing.Point(115, 123);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 20);
+            this.label2.Size = new System.Drawing.Size(72, 20);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Password";
+            this.label2.Text = "Пароль";
             // 
             // txtBx_login
             // 
@@ -95,13 +95,13 @@
             // 
             this.linkLbl_Register.AutoSize = true;
             this.linkLbl_Register.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.linkLbl_Register.Location = new System.Drawing.Point(119, 281);
+            this.linkLbl_Register.Location = new System.Drawing.Point(98, 283);
             this.linkLbl_Register.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLbl_Register.Name = "linkLbl_Register";
-            this.linkLbl_Register.Size = new System.Drawing.Size(72, 20);
+            this.linkLbl_Register.Size = new System.Drawing.Size(117, 20);
             this.linkLbl_Register.TabIndex = 5;
             this.linkLbl_Register.TabStop = true;
-            this.linkLbl_Register.Text = "Register";
+            this.linkLbl_Register.Text = "Регистрация";
             this.linkLbl_Register.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLbl_Register_LinkClicked);
             // 
             // Login
@@ -117,7 +117,7 @@
             this.Controls.Add(this.Btn_login);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Login";
-            this.Text = "Login";
+            this.Text = "Авторизация";
             this.ResumeLayout(false);
             this.PerformLayout();
 

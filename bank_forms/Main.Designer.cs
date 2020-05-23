@@ -331,7 +331,7 @@
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "Онлайн-банк";
             this.Activated += new System.EventHandler(this.Main_Activated_1);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

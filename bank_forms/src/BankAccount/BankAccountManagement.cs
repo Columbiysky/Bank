@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace bank_forms.src.BankAccount
@@ -116,14 +117,14 @@ namespace bank_forms.src.BankAccount
         /// <param name="clientBankAccId"> ID клиентского аккаунта, к которому доавляем карту </param>
         /// <param name="validity"> Валидность карты (до какого числа) </param>
         /// <returns>  </returns>
-        public static ObjectId CreateDebitCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity)
+        public static ObjectId CreateDebitCardForClient(MongoClient client, IClient user, string clientBankAccId, string validity, out ObjectId recordId)
         {
             var database = client.GetDatabase("bank");
             var collection = database.GetCollection<BsonDocument>("users_cards");
 
             var debitCard = CardManagement.CreateDebitCard(client, validity);
 
-            var recordId = ObjectId.GenerateNewId();
+            recordId = ObjectId.GenerateNewId();
 
             BsonDocument clientDebitCard = new BsonDocument
             {
@@ -382,12 +383,12 @@ namespace bank_forms.src.BankAccount
                 {
                     foreach (var record in records)
                     {
-                        cashBefore = decimal.Parse(record.GetValue("balance").ToString());
+                        cashBefore = decimal.Parse(record.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
                         // обновим таблицу в бд, добавив к балансу сумму, которую клиент зачисляет на карту
                         collection.UpdateOne
                         (
                             new BsonDocument("_id", new ObjectId(accountId)),
-                            new BsonDocument("$set", new BsonDocument("balance", cashBefore + Convert.ToDecimal(moneyAmount)))
+                            new BsonDocument("$set", new BsonDocument("balance", cashBefore + Convert.ToDecimal(moneyAmount, CultureInfo.InvariantCulture)))
                         );
                     }
                 }
@@ -422,12 +423,12 @@ namespace bank_forms.src.BankAccount
                 {
                     foreach (var record in records)
                     {
-                        cashBefore = decimal.Parse(record.GetValue("Balance").ToString());
+                        cashBefore = decimal.Parse(record.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
 
                         collection.UpdateOne
                         (
                             new BsonDocument("_id", new ObjectId(cardId)),
-                            new BsonDocument("$set", new BsonDocument("Balance", cashBefore + Convert.ToDecimal(moneyAmount)))
+                            new BsonDocument("$set", new BsonDocument("Balance", cashBefore + Convert.ToDecimal(moneyAmount, CultureInfo.InvariantCulture)))
                         );
                     }
                 }
@@ -452,15 +453,39 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
                     // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", new ObjectId(userAccId)),
-                        new BsonDocument("$set", new BsonDocument("balance", senderCash - Convert.ToDecimal(moneyAmount)))
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - Convert.ToDecimal(moneyAmount, CultureInfo.InvariantCulture)))
                     );
                 }
             }
+        }
+
+        public static string GetUserCardId(string cardId)
+        {
+            string id = "";
+
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("users_cards");
+
+            var filter = new BsonDocument("cardId", ObjectId.Parse(cardId));
+            var cursor = collection.FindSync(filter);
+
+            while (cursor.MoveNext())
+            {
+                var records = cursor.Current;
+
+                foreach (var record in records)
+                {
+                    id = record.GetValue("_id").ToString();
+                }
+            }
+
+            return id;
         }
     }
 }

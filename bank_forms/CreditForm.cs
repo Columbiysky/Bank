@@ -87,9 +87,17 @@ namespace bank_forms
 
         private void tb_creditSum_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsDigit(e.KeyChar)) return;
+
+            if (Char.IsDigit(e.KeyChar))
+                return;
             else
-                e.Handled = true;      
+                e.Handled = true;
+
+            if (e.KeyChar == (char)Keys.Back)
+                e.Handled = false;
+
+            if (e.KeyChar == '.')
+                e.Handled = false;
         }
 
         private void tb_creditSum_KeyUp(object sender, KeyEventArgs e)
