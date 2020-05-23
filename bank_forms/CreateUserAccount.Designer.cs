@@ -156,7 +156,7 @@
             this.MinimumSize = new System.Drawing.Size(556, 411);
             this.Name = "CreateUserAccount";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CreateUserAccount";
+            this.Text = "Открыть счет";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

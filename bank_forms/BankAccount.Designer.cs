@@ -46,6 +46,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btn_addMoney = new System.Windows.Forms.Button();
             this.tb_addMoney = new System.Windows.Forms.TextBox();
+            this.btn_getReport = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -239,11 +240,22 @@
             this.tb_addMoney.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tb_addMoney.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_addMoney_KeyPress);
             // 
+            // btn_getReport
+            // 
+            this.btn_getReport.Location = new System.Drawing.Point(5, 385);
+            this.btn_getReport.Name = "btn_getReport";
+            this.btn_getReport.Size = new System.Drawing.Size(189, 41);
+            this.btn_getReport.TabIndex = 12;
+            this.btn_getReport.Text = "Отчет по счету";
+            this.btn_getReport.UseVisualStyleBackColor = true;
+            this.btn_getReport.Click += new System.EventHandler(this.btn_getReport_Click);
+            // 
             // BankAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 628);
+            this.Controls.Add(this.btn_getReport);
             this.Controls.Add(this.tb_addMoney);
             this.Controls.Add(this.btn_addMoney);
             this.Controls.Add(this.label2);
@@ -294,5 +306,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_addMoney;
         private System.Windows.Forms.TextBox tb_addMoney;
+        private System.Windows.Forms.Button btn_getReport;
     }
 }

@@ -2,15 +2,77 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace bank_forms.src.BankAccount
 {
     public class AccountOperations
     {
-        public void TransferMoneyIDKWhere(IClient sender, string senderAccId, decimal mountAmount)
+        public void TransferMoneySomeWhereFromAcc(IClient sender, string senderAccId, decimal moneyAmount)
         {
-            throw new NotImplementedException();
+            decimal senderCash = 0;
+
+            var database = DBConnect.GetConnection().GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(senderAccId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = senderCash - moneyAmount;
+                    // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(senderAccId)),
+                        new BsonDocument("$set", new BsonDocument("balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
+                    );
+                }
+            }
+        }
+
+        public void TransferMoneySomeWhereFromCard(IClient sender, string senderCardId, decimal moneyAmount)
+        {
+            decimal senderCash = 0;
+
+            var database = DBConnect.GetConnection().GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("card");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(senderCardId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(account.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = senderCash - moneyAmount;
+                    // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(senderCardId)),
+                        new BsonDocument("$set", new BsonDocument("Balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
+                    );
+                }
+            }
         }
 
         public void TransferMoneyToUserByNumber(IClient sender, string senderAccId, long phoneNumber, decimal moneyAmount)
@@ -38,7 +100,7 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
                     // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
@@ -47,8 +109,6 @@ namespace bank_forms.src.BankAccount
                     );
                 }
             }
-
-
         }
 
         public void TransferMoneyToUserByCardNumber(IClient sender, string senderAccId, long recieverCardNumber, decimal moneyAmount)
@@ -79,18 +139,20 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
 
                     if (senderCash < moneyAmount)
                     {
                         throw new Exception("Недостаток средств на счету");
                     }
 
+                    decimal result = senderCash - moneyAmount;
+
                     // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", new ObjectId(senderAccId)),
-                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -107,12 +169,14 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    recieverCash = decimal.Parse(account.GetValue("Balance").ToString());
+                    recieverCash = decimal.Parse(account.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = recieverCash + moneyAmount;
                     // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
                     collection.UpdateOne
                     (
                         new BsonDocument("CardNumber", recieverCardNumber),
-                        new BsonDocument("$set", new BsonDocument("Balance", recieverCash + moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("Balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -145,7 +209,9 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = senderCash - moneyAmount;
 
                     if (senderCash < moneyAmount)
                     {
@@ -156,7 +222,7 @@ namespace bank_forms.src.BankAccount
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", new ObjectId(senderAccId)),
-                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -172,12 +238,14 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    recieverCash = decimal.Parse(account.GetValue("balance").ToString());
+                    recieverCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = recieverCash + moneyAmount;
                     // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", recieverBankAccId),
-                        new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -205,18 +273,19 @@ namespace bank_forms.src.BankAccount
                 foreach (var card in cards)
                 {
                     // запомним изначальный баланс
-                    senderCash = decimal.Parse(card.GetValue("Balance").ToString());
+                    senderCash = decimal.Parse(card.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
 
                     if (senderCash < moneyAmount)
                     {
                         throw new Exception("Недостаток средств на счету");
                     }
 
+                    decimal result = senderCash - moneyAmount;
                     // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", new ObjectId(senderCardId)),
-                        new BsonDocument("$set", new BsonDocument("Balance", senderCash - moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("Balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -233,12 +302,14 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    recieverCash = decimal.Parse(account.GetValue("balance").ToString());
+                    recieverCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = recieverCash + moneyAmount;
                     // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", new ObjectId(recieverAccId)),
-                        new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -266,18 +337,20 @@ namespace bank_forms.src.BankAccount
                 foreach (var card in cards)
                 {
                     // запомним изначальный баланс
-                    senderCash = decimal.Parse(card.GetValue("Balance").ToString());
+                    senderCash = decimal.Parse(card.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
 
                     if (senderCash < moneyAmount)
                     {
                         throw new Exception("Недостаток средств на счету");
                     }
 
+                    decimal result = senderCash - moneyAmount;
+
                     // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
                         new BsonDocument("_id", new ObjectId(senderCardId)),
-                        new BsonDocument("$set", new BsonDocument("Balance", senderCash - moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("Balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }
@@ -294,12 +367,15 @@ namespace bank_forms.src.BankAccount
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
-                    recieverCash = decimal.Parse(account.GetValue("Balance").ToString());
+                    recieverCash = decimal.Parse(account.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
+
+                    decimal result = recieverCash + moneyAmount;
+
                     // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
                     collection.UpdateOne
                     (
                         new BsonDocument("CardNumber", recieverCardId),
-                        new BsonDocument("$set", new BsonDocument("Balance", recieverCash + moneyAmount))
+                        new BsonDocument("$set", new BsonDocument("Balance", Convert.ToDecimal(result, CultureInfo.InvariantCulture)))
                     );
                 }
             }

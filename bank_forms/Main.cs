@@ -362,6 +362,7 @@ namespace bank_forms
 
         private void btn_createNewUserAcc_Click(object sender, EventArgs e)
         {
+            lbl_noAccounts.Visible = false;
             CreateUserAccount userAccForm = new CreateUserAccount(curUser);
             userAccForm.Activate();
             userAccForm.ShowDialog();

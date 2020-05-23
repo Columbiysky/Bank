@@ -1,8 +1,10 @@
 ﻿using bank_forms.src.BankAccount;
 using bank_forms.src.DBConnection;
+using bank_forms.src.Operations;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace bank_forms
@@ -17,10 +19,11 @@ namespace bank_forms
 
         string userAccId;
         string bankAccId;
+        ObjectId userCardId;
 
         int lvSelectedIndex;
-        double cash;
-        double cardCash;
+        decimal cash;
+        decimal cardCash;
 
         public BankAccount(IClient client, Dictionary<string, string> accInfo, string userAccId, string bankAccId)
         {
@@ -40,7 +43,7 @@ namespace bank_forms
             lbl_accStart.Text += "  " + accInfo["startDate"];
             lbl_accFinish.Text += "  " + accInfo["finishDate"];
 
-            cash = Convert.ToDouble(accInfo["balance"]);
+            //cash = Convert.ToDecimal(accInfo["balance"]);
 
             try
             {
@@ -64,7 +67,7 @@ namespace bank_forms
                     // добавляем элемент в ListView
                     lv_clientCards.Items.Add(lvi);
 
-                    cardCash = Convert.ToDouble(cardInfo["balance"]);
+                    cardCash = Convert.ToDecimal(cardInfo["balance"], CultureInfo.InvariantCulture);
                 }
             }
             else
@@ -77,8 +80,9 @@ namespace bank_forms
         {
             try
             {
-                BankAccountManagement.CreateDebitCardForClient(DBConnect.GetConnection(), client, userAccId, accInfo["finishDate"]);
+                BankAccountManagement.CreateDebitCardForClient(DBConnect.GetConnection(), client, userAccId, accInfo["finishDate"], out userCardId);
                 MessageBox.Show("Дебетовая карта добавлена к Вашему счету");
+                lbl_noCards.Visible = false;
                 this.BeginInvoke((MethodInvoker)(() => UpdateForm()));
             }
             catch (Exception exc)
@@ -134,9 +138,9 @@ namespace bank_forms
         {
             var cardId = lv_clientCards.Items[lv_clientCards.SelectedIndices[0]].Name;
 
-            CardOperations cardOperationsForm = new CardOperations(client, cardId);
+            CardOperations cardOperationsForm = new CardOperations(client, cardId, userCardId);
             cardOperationsForm.Text = $"Карта номер {lv_clientCards.Items[lvSelectedIndex].Name}";
-            MessageBox.Show(lv_clientCards.Items[lvSelectedIndex].Name);
+            //MessageBox.Show(lv_clientCards.Items[lvSelectedIndex].Name);
             cardOperationsForm.ShowDialog();
         }
 
@@ -151,13 +155,13 @@ namespace bank_forms
             {
                 var cardId = lv_clientCards.Items[lv_clientCards.SelectedIndices[0]].Name;
 
-                if (!IsDebitCard(cardId))
-                {
-                    MessageBox.Show("Вы патаетесь пополнить баланс кредитной карты");
-                    return;
-                }
+                //if (!IsDebitCard(cardId))
+                //{
+                //    MessageBox.Show("Вы патаетесь пополнить баланс кредитной карты");
+                //    return;
+                //}
 
-                if (!CheckCardAndAccBalance(cardId, Convert.ToDecimal(tb_moneyAmount.Text)))
+                if (!CheckCardAndAccBalance(cardId, Convert.ToDecimal(tb_moneyAmount.Text, CultureInfo.InvariantCulture)))
                 {
                     MessageBox.Show("Вы превысили баланс аккаунта");
                     return;
@@ -165,22 +169,38 @@ namespace bank_forms
 
                 BankAccountManagement.TransferMoneyToCard(cardId, accInfo["id"], tb_moneyAmount.Text);
 
-                cardCash += Convert.ToDouble(tb_moneyAmount.Text);
+                cardCash += Convert.ToDecimal(tb_moneyAmount.Text, CultureInfo.InvariantCulture);
                 cardInfo = BankAccountManagement.GetCardInfo(cardId);
 
                 this.BeginInvoke((MethodInvoker)(() => UpdateForm()));
                 MessageBox.Show("Средства зачислены");
+
+                DateTime today = DateTime.Now;
+                DateTime todayDate = DateTime.Today;
+
+                string transactionType = "Перевод на карту";
+                string time = today.ToString("HH:mm:ss");
+
+                // Записываем в архив
+                OperationsRecorder.RecordAccountOperation
+                (
+                    userAccId,
+                    todayDate.ToString("dd/MM/yyyy"),
+                    time,
+                    transactionType,
+                    Convert.ToDecimal(tb_moneyAmount.Text, CultureInfo.InvariantCulture)
+                 );
             }
             catch (Exception exc)
             {
                 MessageBox.Show("Выберите карту из списка");
-                //MessageBox.Show(exc.Message);
+                MessageBox.Show(exc.Message);
             }
         }
 
         private void btn_addMoney_Click(object sender, EventArgs e)
         {
-            if (Convert.ToDouble(tb_addMoney.Text) > 80000 || tb_addMoney.Text == "")
+            if (Convert.ToDecimal(tb_addMoney.Text, CultureInfo.InvariantCulture) > 80000 || tb_addMoney.Text == "")
             {
                 MessageBox.Show("Максимальная сумма пополнения 80 000р");
                 return;
@@ -191,6 +211,22 @@ namespace bank_forms
             //cash += Convert.ToDouble(tb_addMoney.Text);
             //lbl_accBalance.Text += "  " + cash;
             MessageBox.Show("Средства зачислены");
+
+            DateTime today = DateTime.Now;
+            DateTime todayDate = DateTime.Today;
+
+            string transactionType = "Пополнение средств";
+            string time = today.ToString("HH:mm:ss");
+
+            // Записываем в архив
+            OperationsRecorder.RecordAccountOperation
+            (
+                userAccId,
+                todayDate.ToString("dd/MM/yyyy"), 
+                time, 
+                transactionType, 
+                Convert.ToDecimal(tb_addMoney.Text, CultureInfo.InvariantCulture)
+             );
         }
 
         private void btn_getCreditCard_Click(object sender, EventArgs e)
@@ -240,15 +276,18 @@ namespace bank_forms
 
             if (e.KeyChar == (char)Keys.Back)
                 e.Handled = false;
+
+            if (e.KeyChar == '.')
+                e.Handled = false;
         }
 
         private bool CheckCardAndAccBalance(string card, decimal transferSum)
         {
             cardInfo = BankAccountManagement.GetCardInfo(card);
-            decimal cardBalance = Convert.ToDecimal(cardInfo["balance"]);
+            decimal cardBalance = Convert.ToDecimal(cardInfo["balance"], CultureInfo.InvariantCulture);
 
             //accInfo = BankAccountManagement.GetBankAccInfo(userAccId);
-            decimal accountBalance = Convert.ToDecimal(accInfo["balance"]);
+            decimal accountBalance = Convert.ToDecimal(accInfo["balance"], CultureInfo.InvariantCulture);
 
             bool isAllowed = true;
 
@@ -262,7 +301,7 @@ namespace bank_forms
 
         private void btn_transferMoney_Click(object sender, EventArgs e)
         {
-            SendMoneyFromAccount sendMoney = new SendMoneyFromAccount(client, accInfo["id"]);
+            SendMoneyFromAccount sendMoney = new SendMoneyFromAccount(client, accInfo["id"], userAccId);
             sendMoney.ShowDialog();
         }
 
@@ -275,6 +314,15 @@ namespace bank_forms
 
             if (e.KeyChar == (char)Keys.Back)
                 e.Handled = false;
-        } 
+
+            if (e.KeyChar == '.')
+                e.Handled = false;
+        }
+
+        private void btn_getReport_Click(object sender, EventArgs e)
+        {
+            AccountReports reportForm = new AccountReports(userAccId);
+            reportForm.ShowDialog();
+        }
     }
 }

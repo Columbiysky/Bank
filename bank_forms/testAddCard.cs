@@ -66,15 +66,15 @@ namespace bank_forms
 
         private void btnAddCard_Click(object sender, EventArgs e)
         {
-            try
-            {
-                BankAccountManagement.CreateDebitCardForClient(DBConnect.GetConnection(), curClient, accId.First<string>().ToString(),  "12.12.2030");
-                MessageBox.Show("Успешно");
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show("Ошибка");
-            }
+            //try
+            //{
+            //    BankAccountManagement.CreateDebitCardForClient(DBConnect.GetConnection(), curClient, accId.First<string>().ToString(),  "12.12.2030");
+            //    MessageBox.Show("Успешно");
+            //}
+            //catch (Exception exc)
+            //{
+            //    MessageBox.Show("Ошибка");
+            //}
         }
 
         private void button3_Click(object sender, EventArgs e)
