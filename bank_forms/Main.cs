@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MongoDB.Driver;
 using Dadata;
 using Dadata.Model;
 using KladrApiClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.WireProtocol.Messages;
 using bank_forms.src.BankAccount;
-using bank_forms.src.FormsDialog;
 
 namespace bank_forms
 {

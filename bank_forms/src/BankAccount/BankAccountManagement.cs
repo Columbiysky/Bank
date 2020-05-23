@@ -399,7 +399,7 @@ namespace bank_forms.src.BankAccount
         /// </summary>
         /// <param name="cardId"> id банковской карты </param>
         /// <param name="moneyAmount"> Сумма баблишка </param>
-        public static void TransferMoneyToCard(string cardId, string moneyAmount)
+        public static void TransferMoneyToCard(string cardId, string userAccId, string moneyAmount)
         {
             var client = DBConnect.GetConnection();
             var database = client.GetDatabase("bank");
@@ -430,6 +430,35 @@ namespace bank_forms.src.BankAccount
                             new BsonDocument("$set", new BsonDocument("Balance", cashBefore + Convert.ToDecimal(moneyAmount)))
                         );
                     }
+                }
+            }
+
+            database = DBConnect.GetConnection().GetDatabase("bank");
+            collection = database.GetCollection<BsonDocument>("bank_account");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            filter = new BsonDocument("_id", new ObjectId(userAccId));
+            cursor = collection.FindSync<BsonDocument>(filter);
+
+            decimal senderCash;
+
+            // СНИМАЕМ БАБКИ СО СЧЕТА ОТПРАВИТЕЛЯ
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(userAccId)),
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - Convert.ToDecimal(moneyAmount)))
+                    );
                 }
             }
         }
