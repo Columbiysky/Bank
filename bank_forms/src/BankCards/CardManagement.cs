@@ -37,10 +37,10 @@ namespace bank_forms.src.BankCards
         public static ICard CreateCreditCard
         (
             MongoClient client, 
+            decimal balance,
             string validity, 
             double percent = 0, 
-            int maxLimit = 0,
-            decimal balance = 0
+            int maxLimit = 0
         )
         {
             var database = client.GetDatabase("bank");
@@ -66,7 +66,7 @@ namespace bank_forms.src.BankCards
 
             collection.InsertOne(creditCard);
 
-            return new CreditCard(objId, validity, cardNumber, cvvCode, balance, percent, maxLimit);
+            return new CreditCard(objId, balance, validity, cardNumber, cvvCode, percent, maxLimit);
         }
 
         private static long GenerateCardNumber()

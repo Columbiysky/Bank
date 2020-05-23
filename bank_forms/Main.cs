@@ -24,6 +24,7 @@ namespace bank_forms
     public partial class Main : Form
     {
         int lvSelectedIndex;
+        string bankAccId;
 
         Dictionary<string, string> accInfo;
         Dictionary<string, string> cardInfo;
@@ -361,7 +362,9 @@ namespace bank_forms
 
         private void listV_accounts_ItemActivate(object sender, EventArgs e)
         {
-            BankAccount bankAccForm = new BankAccount(curUser, accInfo, listV_accounts.Items[lvSelectedIndex].Name);
+            bankAccId = BankAccountManagement.GetUserBankAccId(listV_accounts.Items[lvSelectedIndex].Name);
+
+            BankAccount bankAccForm = new BankAccount(curUser, accInfo, listV_accounts.Items[lvSelectedIndex].Name, bankAccId);
             bankAccForm.Text = $"Счет под номером: {listV_accounts.Items[lvSelectedIndex].Name}";
             bankAccForm.ShowDialog();
         }

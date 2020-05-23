@@ -52,7 +52,7 @@ namespace bank_forms.src.BankAccount
         }
 
 
-        public void TransferMoneyToUserByCardNumber(IClient sender, string senderAccId, long cardNumber, decimal moneyAmount)
+        public void TransferMoneyToUserByCardNumber(IClient sender, string senderAccId, long recieverCardNumber, decimal moneyAmount)
         {
             var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
 
@@ -61,7 +61,7 @@ namespace bank_forms.src.BankAccount
 
             // тут может вылететь сразу НЕСКОЛЬКО эксепшенов, CAREFUL!!!
             // запишем в блокнотик id получателя и id его банковского акк, куда привязана карта
-            long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), cardNumber, out recieverBankAccId);
+            long recieverId = FindUserByCardNumber(DBConnect.GetConnection(), recieverCardNumber, out recieverBankAccId);
 
             decimal senderCash = 0;
             decimal recieverCash = 0;
@@ -115,7 +115,64 @@ namespace bank_forms.src.BankAccount
             }
         }
 
-        //public static void TransferMoneyFromCardToUser()
+        public void TransferMoneyToUserByAccId(IClient sender, string senderAccId, string recieverAccId, decimal moneyAmount)
+        {
+            //var userBankAccId = BankAccountManagement.GetUserBankAccId(senderAccId);
+
+            // id банковского счета, куда КЭЕЭЕЭЕШ будем переводить
+            ObjectId recieverBankAccId = ObjectId.Parse(recieverAccId);
+
+            decimal senderCash = 0;
+            decimal recieverCash = 0;
+
+            var database = DBConnect.GetConnection().GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("bank_account");
+
+            // надо найти крч баланс аккаунта выбранного счета клиента (у него может быть несколько счетов
+            // но на один счет приходится лишь один банковский аккаунт)
+            var filter = new BsonDocument("_id", new ObjectId(senderAccId));
+            var cursor = collection.FindSync<BsonDocument>(filter);
+
+            // СНИМАЕМ БАБКИ СО СЧЕТА ОТПРАВИТЕЛЯ
+            // мб чет неправильно делаю, но работает, так что в пизду..
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    senderCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд вычтев из баланса сумму, которую клиент переводит другому клиенту
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", new ObjectId(senderAccId)),
+                        new BsonDocument("$set", new BsonDocument("balance", senderCash - moneyAmount))
+                    );
+                }
+            }
+
+            filter = new BsonDocument("_id", recieverBankAccId);
+            cursor = collection.FindSync<BsonDocument>(filter);
+
+            // ЗАЧИСЛЯЕМ БАБКИ ПОЛУЧАТЕЛЮ
+            while (cursor.MoveNext())
+            {
+                var accounts = cursor.Current;
+
+                foreach (var account in accounts)
+                {
+                    // запомним изначальный баланс
+                    recieverCash = decimal.Parse(account.GetValue("balance").ToString());
+                    // обновим таблицу в бд, добавив к начальнйо сумме сумму перевода
+                    collection.UpdateOne
+                    (
+                        new BsonDocument("_id", recieverBankAccId),
+                        new BsonDocument("$set", new BsonDocument("balance", recieverCash + moneyAmount))
+                    );
+                }
+            }
+        }
 
         /// <summary>
         /// Поиск пользователя в БД по номеру телефона

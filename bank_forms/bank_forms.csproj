@@ -118,17 +118,17 @@
     <Compile Include="CreateUserAccount.Designer.cs">
       <DependentUpon>CreateUserAccount.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="CreditForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CreditForm.Designer.cs">
+      <DependentUpon>CreditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SendMoneyByCardNumber.cs">
+    <Compile Include="SendMoneyFromAccount.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SendMoneyByCardNumber.Designer.cs">
-      <DependentUpon>SendMoneyByCardNumber.cs</DependentUpon>
+    <Compile Include="SendMoneyFromAccount.Designer.cs">
+      <DependentUpon>SendMoneyFromAccount.cs</DependentUpon>
     </Compile>
     <Compile Include="src\BankAccount\AccountOperations.cs" />
     <Compile Include="src\BankAccount\BankAccounts.cs" />
@@ -177,8 +177,8 @@
     <EmbeddedResource Include="CreateUserAccount.resx">
       <DependentUpon>CreateUserAccount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="CreditForm.resx">
+      <DependentUpon>CreditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -199,8 +199,8 @@
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SendMoneyByCardNumber.resx">
-      <DependentUpon>SendMoneyByCardNumber.cs</DependentUpon>
+    <EmbeddedResource Include="SendMoneyFromAccount.resx">
+      <DependentUpon>SendMoneyFromAccount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="testAddCard.resx">
       <DependentUpon>testAddCard.cs</DependentUpon>
