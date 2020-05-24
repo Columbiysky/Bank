@@ -38,7 +38,7 @@ namespace bank_forms
                 DateTime today = DateTime.Now;
                 DateTime todayDate = DateTime.Today;
 
-                string transactionType = "Перевод средств";
+                string transactionType = "Перевод средств со счета";
                 string time = today.ToString("HH:mm:ss");
 
                 // Записываем в архив
@@ -72,7 +72,7 @@ namespace bank_forms
                 DateTime today = DateTime.Now;
                 DateTime todayDate = DateTime.Today;
 
-                string transactionType = "Перевод средств";
+                string transactionType = "Перевод средств со счета";
                 string time = today.ToString("HH:mm:ss");
 
                 // Записываем в архив
@@ -145,7 +145,7 @@ namespace bank_forms
                 DateTime today = DateTime.Now;
                 DateTime todayDate = DateTime.Today;
 
-                string transactionType = "Перевод средств";
+                string transactionType = "Перевод средств со счета";
                 string time = today.ToString("HH:mm:ss");
 
                 // Записываем в архив

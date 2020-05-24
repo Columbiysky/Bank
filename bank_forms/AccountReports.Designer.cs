@@ -28,46 +28,75 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Дата операции: 15.04.2020; Время: 20:42:12; Тип: Пополнение счета; Сумма: 2000");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Дата операции: 20.04.2020; Время: 15:30:55; Тип: Пополнение счета; Сумма: 10000");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Дата операции: 21.04.2020; Время: 14:33:10; Тип: Перевод с карты; Сумма: 3200");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Дата операции: 21.04.2020; Время: 22:13:26; Тип: Пополнение счета; Сумма: 675");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Дата операции: 23.04.2020; Время: 10:21:42; Тип: Перевод с карты; Сумма: 14200");
-            this.lv_report = new System.Windows.Forms.ListView();
+            this.dgw_info = new System.Windows.Forms.DataGridView();
+            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgw_info)).BeginInit();
             this.SuspendLayout();
             // 
-            // lv_report
+            // dgw_info
             // 
-            this.lv_report.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lv_report.HideSelection = false;
-            this.lv_report.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5});
-            this.lv_report.Location = new System.Drawing.Point(3, 2);
-            this.lv_report.Name = "lv_report";
-            this.lv_report.Size = new System.Drawing.Size(780, 487);
-            this.lv_report.TabIndex = 0;
-            this.lv_report.UseCompatibleStateImageBehavior = false;
-            this.lv_report.View = System.Windows.Forms.View.SmallIcon;
+            this.dgw_info.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgw_info.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgw_info.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgw_info.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.date,
+            this.time,
+            this.type,
+            this.sum});
+            this.dgw_info.Location = new System.Drawing.Point(3, 2);
+            this.dgw_info.Name = "dgw_info";
+            this.dgw_info.RowHeadersVisible = false;
+            this.dgw_info.RowHeadersWidth = 51;
+            this.dgw_info.RowTemplate.Height = 24;
+            this.dgw_info.Size = new System.Drawing.Size(971, 420);
+            this.dgw_info.TabIndex = 1;
+            // 
+            // date
+            // 
+            this.date.HeaderText = "Дата";
+            this.date.MinimumWidth = 6;
+            this.date.Name = "date";
+            // 
+            // time
+            // 
+            this.time.HeaderText = "Время";
+            this.time.MinimumWidth = 6;
+            this.time.Name = "time";
+            // 
+            // type
+            // 
+            this.type.HeaderText = "Тип операции";
+            this.type.MinimumWidth = 6;
+            this.type.Name = "type";
+            // 
+            // sum
+            // 
+            this.sum.HeaderText = "Сумма";
+            this.sum.MinimumWidth = 6;
+            this.sum.Name = "sum";
             // 
             // AccountReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 493);
-            this.Controls.Add(this.lv_report);
+            this.ClientSize = new System.Drawing.Size(976, 427);
+            this.Controls.Add(this.dgw_info);
             this.Name = "AccountReports";
             this.Text = "Отчет по счету";
             this.Load += new System.EventHandler(this.AccountReports_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgw_info)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView lv_report;
+        private System.Windows.Forms.DataGridView dgw_info;
+        private System.Windows.Forms.DataGridViewTextBoxColumn date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sum;
     }
 }
