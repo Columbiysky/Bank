@@ -178,7 +178,7 @@ namespace bank_forms
                 DateTime today = DateTime.Now;
                 DateTime todayDate = DateTime.Today;
 
-                string transactionType = "Перевод на карту";
+                string transactionType = "Перевод средств на карту";
                 string time = today.ToString("HH:mm:ss");
 
                 // Записываем в архив

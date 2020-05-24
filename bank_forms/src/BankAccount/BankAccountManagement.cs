@@ -487,5 +487,10 @@ namespace bank_forms.src.BankAccount
 
             return id;
         }
+
+        //public List<string> GetUserBankAccCardId()
+        //{
+
+        //}
     }
 }

@@ -242,6 +242,9 @@
             // 
             // btn_getReport
             // 
+            this.btn_getReport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_getReport.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_getReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_getReport.Location = new System.Drawing.Point(5, 385);
             this.btn_getReport.Name = "btn_getReport";
             this.btn_getReport.Size = new System.Drawing.Size(189, 41);

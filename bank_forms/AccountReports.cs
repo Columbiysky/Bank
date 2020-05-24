@@ -1,4 +1,5 @@
-﻿using bank_forms.src.DBConnection;
+﻿using bank_forms.src.BankAccount;
+using bank_forms.src.DBConnection;
 using MongoDB.Bson;
 using NUnit.Framework;
 using System;
@@ -26,20 +27,23 @@ namespace bank_forms
 
         private void AccountReports_Load(object sender, EventArgs e)
         {
-            //ListViewItem lvi = new ListViewItem();
+            var operationInfo = GetReport(clientAccId);
+            var cardOperationInfo = GetReportFromCards(clientAccId);
 
-            //var operationInfo = GetReport(clientAccId);
+            foreach (var elem in operationInfo)
+            {
+                dgw_info.Rows.Add(elem["date"], elem["TransactionTime"], elem["Type"], elem["Sum"]);
+            }
 
-            //// установка названия файла
-            //lvi.Text = $"Дата: {operationInfo["date"]}. Время: {operationInfo["TransactionTime"]}. Тип транзакции: {operationInfo["Type"]} Сумма: {operationInfo["Sum"]}";
-            //// добавляем элемент в ListView
-            //lv_report.Items.Add(lvi);
+            foreach (var elem in cardOperationInfo)
+            {
+                dgw_info.Rows.Add(elem["date"], elem["TransactionTime"], elem["Type"], elem["Sum"]);
+            }
         }
 
-        private Dictionary<string, string> GetReport(string clientAccId)
+        private List<Dictionary<string, string>> GetReport(string clientAccId)
         {
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            List<List> info = new List<List>();
+            List<Dictionary<string, string>> info = new List<Dictionary<string, string>>();
 
             var client = DBConnect.GetConnection();
             var database = client.GetDatabase("bank");
@@ -67,26 +71,73 @@ namespace bank_forms
 
                         foreach (var cur in operationRecords)
                         {
-                            //List<string> tmp = new List<string>();
-                            //tmp.Add(cur.GetValue("OperationDate").ToString());
-                            //tmp.Add(cur.GetValue("TransactionTime").ToString());
-                            //tmp.Add(cur.GetValue("Type").ToString());
-                            //tmp.Add(cur.GetValue("Sum").ToString());
+                            Dictionary<string, string> result = new Dictionary<string, string>();
 
-                            //info.Add(tmp);
+                            result.Add("date", cur.GetValue("OperationDate").ToString());
+                            result.Add("TransactionTime", cur.GetValue("TransactionTime").ToString());
+                            result.Add("Type", cur.GetValue("Type").ToString());
+                            result.Add("Sum", cur.GetValue("Sum").ToString());
 
-                            //result.Add("date", cur.GetValue("OperationDate").ToString());
-                            //result.Add("TransactionTime", cur.GetValue("TransactionTime").ToString());
-                            //result.Add("Type", cur.GetValue("Type").ToString());
-                            //result.Add("Sum", cur.GetValue("Sum").ToString());
+                            info.Add(result);
                         }
                     }
                 }
             }
 
+            return info;
+        }
 
+        private List<Dictionary<string, string>> GetReportFromCards(string clientAccId)
+        {
+            List<Dictionary<string, string>> info = new List<Dictionary<string, string>>();
 
-            return result;
+            var client = DBConnect.GetConnection();
+            var database = client.GetDatabase("bank");
+            var collection = database.GetCollection<BsonDocument>("card_operations");
+
+            var userCards = BankAccountManagement.GetUserBankAccCards(clientAccId);
+
+            foreach (var card in userCards)
+            {
+                string userAccCardId = BankAccountManagement.GetUserCardId(card);
+
+                var filter = new BsonDocument("clientCardId", ObjectId.Parse(userAccCardId));
+                var cursor = collection.FindSync<BsonDocument>(filter);
+
+                while (cursor.MoveNext())
+                {
+                    var records = cursor.Current;
+
+                    foreach (var record in records)
+                    {
+                        string recordId = record.GetValue("operationId").ToString();
+
+                        var operationCollection = database.GetCollection<BsonDocument>("operations");
+
+                        var operationFilter = new BsonDocument("_id", ObjectId.Parse(recordId));
+                        var operationCursor = operationCollection.FindSync<BsonDocument>(operationFilter);
+
+                        while (operationCursor.MoveNext())
+                        {
+                            var operationRecords = operationCursor.Current;
+
+                            foreach (var cur in operationRecords)
+                            {
+                                Dictionary<string, string> result = new Dictionary<string, string>();
+
+                                result.Add("date", cur.GetValue("OperationDate").ToString());
+                                result.Add("TransactionTime", cur.GetValue("TransactionTime").ToString());
+                                result.Add("Type", cur.GetValue("Type").ToString());
+                                result.Add("Sum", cur.GetValue("Sum").ToString());
+
+                                info.Add(result);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return info;
         }
     }
 }
