@@ -46,12 +46,13 @@
             this.time,
             this.type,
             this.sum});
+            this.dgw_info.GridColor = System.Drawing.SystemColors.Control;
             this.dgw_info.Location = new System.Drawing.Point(3, 2);
             this.dgw_info.Name = "dgw_info";
             this.dgw_info.RowHeadersVisible = false;
             this.dgw_info.RowHeadersWidth = 51;
             this.dgw_info.RowTemplate.Height = 24;
-            this.dgw_info.Size = new System.Drawing.Size(971, 420);
+            this.dgw_info.Size = new System.Drawing.Size(971, 509);
             this.dgw_info.TabIndex = 1;
             // 
             // date
@@ -82,8 +83,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(976, 427);
+            this.ClientSize = new System.Drawing.Size(976, 512);
             this.Controls.Add(this.dgw_info);
+            this.MaximumSize = new System.Drawing.Size(994, 559);
+            this.MinimumSize = new System.Drawing.Size(994, 559);
             this.Name = "AccountReports";
             this.Text = "Отчет по счету";
             this.Load += new System.EventHandler(this.AccountReports_Load);

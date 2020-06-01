@@ -73,16 +73,16 @@
             // 
             // tb_confirmINN
             // 
-            this.tb_confirmINN.Location = new System.Drawing.Point(73, 39);
+            this.tb_confirmINN.Location = new System.Drawing.Point(131, 39);
             this.tb_confirmINN.Name = "tb_confirmINN";
-            this.tb_confirmINN.Size = new System.Drawing.Size(257, 22);
+            this.tb_confirmINN.Size = new System.Drawing.Size(199, 22);
             this.tb_confirmINN.TabIndex = 3;
             // 
             // tb_cofirmPass
             // 
-            this.tb_cofirmPass.Location = new System.Drawing.Point(73, 83);
+            this.tb_cofirmPass.Location = new System.Drawing.Point(131, 83);
             this.tb_cofirmPass.Name = "tb_cofirmPass";
-            this.tb_cofirmPass.Size = new System.Drawing.Size(257, 22);
+            this.tb_cofirmPass.Size = new System.Drawing.Size(199, 22);
             this.tb_cofirmPass.TabIndex = 4;
             this.tb_cofirmPass.UseSystemPasswordChar = true;
             // 
@@ -97,12 +97,12 @@
             this.groupBox1.Size = new System.Drawing.Size(351, 117);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Подтвердите Ваш ИНН и пароль";
+            this.groupBox1.Text = "Подтвердите Ваш номер паспорта и пароль";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 86);
+            this.label3.Location = new System.Drawing.Point(64, 86);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 17);
             this.label3.TabIndex = 7;
@@ -111,11 +111,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 44);
+            this.label2.Location = new System.Drawing.Point(4, 42);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 17);
+            this.label2.Size = new System.Drawing.Size(121, 17);
             this.label2.TabIndex = 7;
-            this.label2.Text = "ИНН:";
+            this.label2.Text = "Номер паспорта:";
             // 
             // linkLabel1
             // 

@@ -69,7 +69,7 @@ namespace bank_forms
             }
             catch (Exception exc)
             {
-                MessageBox.Show("Такого банковского аккаунта не существует");
+                MessageBox.Show("Данный банковский счет не зарегистрирован");
             }
         }
 
@@ -111,7 +111,7 @@ namespace bank_forms
             }
             catch (Exception exc)
             {
-                MessageBox.Show("Такой банковской карты нет в базе данных");
+                MessageBox.Show(exc.Message);
             }
         }
 
