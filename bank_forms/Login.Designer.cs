@@ -78,7 +78,6 @@
             this.txtBx_login.Name = "txtBx_login";
             this.txtBx_login.Size = new System.Drawing.Size(132, 26);
             this.txtBx_login.TabIndex = 3;
-            this.txtBx_login.Text = "sght";
             // 
             // txtBx_password
             // 
@@ -88,7 +87,6 @@
             this.txtBx_password.Name = "txtBx_password";
             this.txtBx_password.Size = new System.Drawing.Size(132, 26);
             this.txtBx_password.TabIndex = 4;
-            this.txtBx_password.Text = "sght";
             this.txtBx_password.UseSystemPasswordChar = true;
             // 
             // linkLbl_Register
