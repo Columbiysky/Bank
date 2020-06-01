@@ -151,7 +151,7 @@
             // txtBx_INN
             // 
             this.txtBx_INN.Enabled = false;
-            this.txtBx_INN.Location = new System.Drawing.Point(123, 135);
+            this.txtBx_INN.Location = new System.Drawing.Point(181, 130);
             this.txtBx_INN.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_INN.Name = "txtBx_INN";
             this.txtBx_INN.Size = new System.Drawing.Size(335, 26);
@@ -160,12 +160,12 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 136);
+            this.label7.Location = new System.Drawing.Point(7, 133);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 20);
+            this.label7.Size = new System.Drawing.Size(148, 20);
             this.label7.TabIndex = 15;
-            this.label7.Text = "ИНН";
+            this.label7.Text = "Номер паспорта";
             // 
             // listBox1
             // 
@@ -204,7 +204,7 @@
             // txtBx_Phone
             // 
             this.txtBx_Phone.Enabled = false;
-            this.txtBx_Phone.Location = new System.Drawing.Point(123, 169);
+            this.txtBx_Phone.Location = new System.Drawing.Point(181, 164);
             this.txtBx_Phone.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Phone.Name = "txtBx_Phone";
             this.txtBx_Phone.Size = new System.Drawing.Size(335, 26);
@@ -213,7 +213,7 @@
             // txtBx_Second_Name
             // 
             this.txtBx_Second_Name.Enabled = false;
-            this.txtBx_Second_Name.Location = new System.Drawing.Point(123, 100);
+            this.txtBx_Second_Name.Location = new System.Drawing.Point(181, 96);
             this.txtBx_Second_Name.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Second_Name.Name = "txtBx_Second_Name";
             this.txtBx_Second_Name.Size = new System.Drawing.Size(335, 26);
@@ -222,7 +222,7 @@
             // txtBx_Name
             // 
             this.txtBx_Name.Enabled = false;
-            this.txtBx_Name.Location = new System.Drawing.Point(123, 66);
+            this.txtBx_Name.Location = new System.Drawing.Point(181, 64);
             this.txtBx_Name.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Name.Name = "txtBx_Name";
             this.txtBx_Name.Size = new System.Drawing.Size(335, 26);
@@ -231,7 +231,7 @@
             // txtBx_Surname
             // 
             this.txtBx_Surname.Enabled = false;
-            this.txtBx_Surname.Location = new System.Drawing.Point(123, 31);
+            this.txtBx_Surname.Location = new System.Drawing.Point(181, 32);
             this.txtBx_Surname.Margin = new System.Windows.Forms.Padding(4);
             this.txtBx_Surname.Name = "txtBx_Surname";
             this.txtBx_Surname.Size = new System.Drawing.Size(335, 26);
@@ -250,7 +250,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 171);
+            this.label5.Location = new System.Drawing.Point(7, 167);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 20);
@@ -333,6 +333,7 @@
             this.Name = "Main";
             this.Text = "Онлайн-банк";
             this.Activated += new System.EventHandler(this.Main_Activated_1);
+            this.Load += new System.EventHandler(this.Main_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

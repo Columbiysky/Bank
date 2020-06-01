@@ -32,6 +32,12 @@ namespace bank_forms.src.BankAccount
                     senderCash = decimal.Parse(account.GetValue("balance").ToString(), CultureInfo.InvariantCulture);
 
                     decimal result = senderCash - moneyAmount;
+
+                    if (senderCash < moneyAmount)
+                    {
+                        throw new Exception("Недостаток средств на счету");
+                    }
+
                     // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
                     collection.UpdateOne
                     (
@@ -63,6 +69,11 @@ namespace bank_forms.src.BankAccount
                 {
                     // запомним изначальный баланс
                     senderCash = decimal.Parse(account.GetValue("Balance").ToString(), CultureInfo.InvariantCulture);
+
+                    if (senderCash < moneyAmount)
+                    {
+                        throw new Exception("Недостаток средств на счету");
+                    }
 
                     decimal result = senderCash - moneyAmount;
                     // обновим таблицу в бд вычев из баланса сумму, которую клиент переводит другому клиенту
@@ -136,6 +147,11 @@ namespace bank_forms.src.BankAccount
             {
                 var accounts = cursor.Current;
 
+                if (accounts.Count() == 0)
+                {
+                    throw new Exception("Пользватель с такой картой не зарегистрирован");
+                }
+
                 foreach (var account in accounts)
                 {
                     // запомним изначальный баланс
@@ -165,6 +181,11 @@ namespace bank_forms.src.BankAccount
             while (cursor.MoveNext())
             {
                 var accounts = cursor.Current;
+
+                if (accounts.Count() == 0)
+                {
+                    throw new Exception("Пользователь с такой картой не зарегистрирован");
+                }
 
                 foreach (var account in accounts)
                 {
@@ -363,6 +384,11 @@ namespace bank_forms.src.BankAccount
             while (cursor.MoveNext())
             {
                 var accounts = cursor.Current;
+
+                if (accounts.Count() == 0)
+                {
+                    throw new Exception("Пользователь с такой картой не зарегистрирован");
+                }
 
                 foreach (var account in accounts)
                 {

@@ -37,43 +37,53 @@ namespace bank_forms
 
         private void BankAccount_Load(object sender, EventArgs e)
         {
-            lbl_accId.Text += "  " + accInfo["id"];
-            lbl_accType.Text += "  " + accInfo["accountType"];
-            lbl_accBalance.Text += "  " + accInfo["balance"];
-            lbl_accStart.Text += "  " + accInfo["startDate"];
-            lbl_accFinish.Text += "  " + accInfo["finishDate"];
+            //lbl_accId.Text += "  " + accInfo["id"];
+            //lbl_accType.Text += "  " + accInfo["accountType"];
+            //lbl_accBalance.Text += "  " + accInfo["balance"];
+            //lbl_accStart.Text += "  " + accInfo["startDate"];
+            //lbl_accFinish.Text += "  " + accInfo["finishDate"];
 
-            //cash = Convert.ToDecimal(accInfo["balance"]);
+            ////cash = Convert.ToDecimal(accInfo["balance"]);
 
-            try
-            {
-                userCards = BankAccountManagement.GetUserBankAccCards(userAccId);
-            }
-            catch(Exception exc)
-            {
-                lbl_noCards.Visible = true;
-            }
+            //try
+            //{
+            //    userCards = BankAccountManagement.GetUserBankAccCards(userAccId);
+            //}
+            //catch(Exception exc)
+            //{
+            //    lbl_noCards.Visible = true;
+            //}
 
-            if (userCards != null)
-            {
-                foreach (string card in userCards)
-                {
-                    ListViewItem lvi = new ListViewItem();
+            //if (userCards != null)
+            //{
+            //    foreach (string card in userCards)
+            //    {
+            //        ListViewItem lvi = new ListViewItem();
 
-                    // установка названия файла
-                    cardInfo = BankAccountManagement.GetCardInfo(card);
-                    lvi.Name = card;
-                    lvi.Text = "№ " + cardInfo["cardNumber"] + $"   Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]}";
-                    // добавляем элемент в ListView
-                    lv_clientCards.Items.Add(lvi);
+            //        // установка названия файла
+            //        cardInfo = BankAccountManagement.GetCardInfo(card);
+            //        lvi.Name = card;
 
-                    cardCash = Convert.ToDecimal(cardInfo["balance"], CultureInfo.InvariantCulture);
-                }
-            }
-            else
-            {
-                lbl_noCards.Visible = true;
-            }  
+            //        if (cardInfo["cardType"] == "Кредитная карта")
+            //        {
+            //            lvi.Text = "№ " + cardInfo["cardNumber"] + $"  Баланс: {cardInfo["balance"]};  {cardInfo["cardType"]};  {cardInfo["percent"]}";
+            //            // добавляем элемент в ListView
+            //            lv_clientCards.Items.Add(lvi);
+            //        }
+            //        else
+            //        {
+            //            lvi.Text = "№ " + cardInfo["cardNumber"] + $"  Баланс: {cardInfo["balance"]};  {cardInfo["cardType"]};  {cardInfo["validity"]}";
+            //            // добавляем элемент в ListView
+            //            lv_clientCards.Items.Add(lvi);
+            //        }
+
+            //        cardCash = Convert.ToDecimal(cardInfo["balance"], CultureInfo.InvariantCulture);
+            //    }
+            //}
+            //else
+            //{
+            //    lbl_noCards.Visible = true;
+            //}  
         }
 
         private void btn_addDebitCard_Click(object sender, EventArgs e)
@@ -123,9 +133,21 @@ namespace bank_forms
                     // установка названия файла
                     cardInfo = BankAccountManagement.GetCardInfo(card);
                     lvi.Name = card;
-                    lvi.Text = "№ " + cardInfo["cardNumber"] + $"   Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]}";
-                    // добавляем элемент в ListView
-                    lv_clientCards.Items.Add(lvi);
+
+                    if (cardInfo["cardType"] == "Кредитная карта")
+                    {
+                        lvi.Text = "№ " + cardInfo["cardNumber"] + $"  Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]};   Дата окончания: {cardInfo["validity"]};   %{cardInfo["percent"]}";
+                        // добавляем элемент в ListView
+                        lv_clientCards.Items.Add(lvi);
+                        lv_clientCards.Items.Add("");
+                    }
+                    else
+                    {
+                        lvi.Text = "№ " + cardInfo["cardNumber"] + $"  Баланс: {cardInfo["balance"]};   {cardInfo["cardType"]};   Дата окончания: {cardInfo["validity"]}";
+                        // добавляем элемент в ListView
+                        lv_clientCards.Items.Add(lvi);
+                        lv_clientCards.Items.Add("");
+                    }
                 }
             }
             else

@@ -375,6 +375,11 @@ namespace bank_forms
             //UpdateData();
         }
 
+        private void Main_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void listV_accounts_SelectedIndexChanged(object sender, EventArgs e)
         {
             lvSelectedIndex = listV_accounts.FocusedItem.Index;
